@@ -1,7 +1,6 @@
-import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LandingPage from "./components/pages/landing/LandingPage.tsx"
-import LoginPage from "./components/pages/login/LoginPage.tsx"
+import AuthPage from "./components/pages/auth/AuthPage.tsx"
 import ErrorPage from "./components/pages/error/ErrorPage.tsx"
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
@@ -25,7 +24,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<AuthPage />} />
+        <Route path="/register" element={<AuthPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
