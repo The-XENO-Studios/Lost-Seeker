@@ -3,6 +3,17 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "hosting": {
+    "source": "Lost-Seeker",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "asia-east1"
+    }
+  },
   "storage": {
     "rules": "storage.rules"
   },
@@ -23,14 +34,5 @@
       "enabled": true
     },
     "singleProjectMode": true
-  },
-  "extensions": {},
-  "hosting": {
-    "public": "Lost-Seeker",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
   }
 }
