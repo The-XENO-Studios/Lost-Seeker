@@ -13,9 +13,9 @@ function LandingPage() {
         <div className="p-20 h-full w-full bg-lightBlue  rounded-full blur-3xl"></div>
       </div>
 
-      <div className="flex flex-col items-center mt-20 z-10">
+      <div className="flex flex-col items-center mt-32 z-10">
         <div className="flex flex-col items-center">
-          <h1 className="font-semibold text-8xl py-4 w-1/2  mt-32 text-black">
+          <h1 className="font-semibold text-4xl sm:text-5xl md:text-6xl xl:text-7xl px-4 md:px-0 py-4 text-center md:text-left text-3/4 md:w-1/2  mt-32 text-black">
             Return the <b className="text-blue font-extrabold">found</b> and
             find the <b className="text-blue font-extrabold">lost</b>.
           </h1>
