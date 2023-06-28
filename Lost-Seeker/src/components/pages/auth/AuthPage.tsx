@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
+import { useState, useEffect } from "react"
 import Form from "./components/Form.tsx"
 import Card from "./components/Card.tsx"
+type pageType = "login" | "register"
 function LoginPage() {
+  const [page, setPage] = useState<pageType>("login")
+  const location: any = useLocation().pathname.replace("/", "")
+  useEffect(() => {
+    setPage(location)
+  }, [location])
   return (
     <div className="md:h-full lg:mt-10 xl:mt-16">
       <div className="md:flex md:h-full max-w-screen-lg mx-auto max-h-[50rem] md:bg-white md:rounded-2xl md:drop-shadow-2xl">
@@ -27,7 +34,7 @@ function LoginPage() {
           </div>
         </div>
         <div className="mt-10 mx-5 md:mt-5 md:flex-grow md:max-w-2xl">
-          <Form />
+          <Form page={page} />
         </div>
       </div>
     </div>
