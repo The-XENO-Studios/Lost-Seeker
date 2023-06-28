@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./components/pages/landing/LandingPage.tsx";
-import AuthPage from "./components/pages/auth/AuthPage.tsx";
-import ErrorPage from "./components/pages/error/ErrorPage.tsx";
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import ListOfItems from "./components/pages/list/ListOfItems.tsx";
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import LandingPage from "./components/pages/landing/LandingPage.tsx"
+import AuthPage from "./components/pages/auth/AuthPage.tsx"
+import ErrorPage from "./components/pages/error/ErrorPage.tsx"
+import { initializeApp } from "firebase/app"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import ListOfItems from "./components/pages/list/ListOfItems.tsx"
+import { useState } from "react"
 
 const firebaseConfig = {
   apiKey: "AIzaSyB2DxDn0VT7kCGQZKmeXmKmG5zWcM8qHSA",
@@ -15,23 +15,23 @@ const firebaseConfig = {
   messagingSenderId: "727937133568",
   appId: "1:727937133568:web:12028899a4907ffa10fce5",
   measurementId: "G-Z3J14HNCXK",
-};
+}
 
 // Initialize Firebase
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const app = initializeApp(firebaseConfig)
+export const auth = getAuth(app)
 
 function App() {
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>()
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      setUser(user);
+      setUser(user)
     } else {
-      setUser(null);
+      setUser(null)
     }
-  });
+  })
 
   return (
     <BrowserRouter>
@@ -43,7 +43,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
