@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LandingPage from "./components/pages/landing/LandingPage.tsx"
 import AuthPage from "./components/pages/auth/AuthPage.tsx"
 import ErrorPage from "./components/pages/error/ErrorPage.tsx"
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListOfItems from "./components/pages/list/ListOfItems.tsx"
@@ -19,8 +18,9 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+
+const app = initializeApp(firebaseConfig)
+export const auth = getAuth(app)
 
 const [user, setUser] = useState<any>();
 

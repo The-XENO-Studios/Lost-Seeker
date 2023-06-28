@@ -1,12 +1,17 @@
-import { Link, Navigate } from "react-router-dom"
+import { Link, useLocation, Navigate } from "react-router-dom"
+import { useState, useEffect } from "react"
 import Form from "./components/Form.tsx"
 import Card from "./components/Card.tsx"
-
+type pageType = "login" | "register"
 interface Props{
   user: any;
 }
-
 function LoginPage({user}: Props) {
+  const [page, setPage] = useState<pageType>("login")
+  const location: any = useLocation().pathname.replace("/", "")
+  useEffect(() => {
+    setPage(location)
+  }, [location])
   if(user){
     return <Navigate to="/list"/>
   }
@@ -35,7 +40,7 @@ function LoginPage({user}: Props) {
           </div>
         </div>
         <div className="mt-10 mx-5 md:mt-5 md:flex-grow md:max-w-2xl">
-          <Form />
+          <Form page={page} />
         </div>
       </div>
     </div>

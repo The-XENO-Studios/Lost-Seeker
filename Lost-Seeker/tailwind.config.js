@@ -12,6 +12,7 @@ export default {
       whiteGray: "#f7f7f7",
       white: "#ffffff",
       black: "#202020",
+      red: "#ff1c56",
     },
     extend: {
       fontFamily: {
