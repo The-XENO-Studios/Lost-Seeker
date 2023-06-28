@@ -2,12 +2,19 @@ import { useState } from "react";
 import Item from "./Item";
 import { getFirestore, collection, getDocs, query, orderBy, limit } from "firebase/firestore"
 import { FirebaseApp } from "firebase/app";
+import LandingNavBar from "../landing/components/LandingNavBar";
+import { Navigate } from "react-router-dom";
 
 interface Props{
-  app: FirebaseApp
+  app: FirebaseApp;
+  user: any;
 }
 
-const ListOfItems = ({app}: Props) => {
+const ListOfItems = ({app, user}: Props) => {
+
+  if(!user){
+    return <Navigate to="/"/>
+  }
 
   const [finalItem, setFinalItem] = useState<any>();
   const [items, setItems] = useState<any>([]);
@@ -18,18 +25,16 @@ const ListOfItems = ({app}: Props) => {
   getDocs(q).then((snapShot)=>{
     snapShot.docs.forEach((doc)=>{
       setItems((currentArray: any) => {
-        return [...currentArray, doc]
+        return [...currentArray, doc.data]
       });
       setFinalItem(doc);
     })
   })
 
   return (
-    <>
-      {items.map((item: any)=>{
-        <Item nameOfObject={item.name} place={item.place} time={item.time} />
-      })}
-    </>
+    <div>
+      <LandingNavBar />
+    </div>
   )
 }
 

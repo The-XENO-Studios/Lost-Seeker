@@ -3,8 +3,9 @@ import LandingPage from "./components/pages/landing/LandingPage.tsx"
 import AuthPage from "./components/pages/auth/AuthPage.tsx"
 import ErrorPage from "./components/pages/error/ErrorPage.tsx"
 import { initializeApp } from "firebase/app"
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListOfItems from "./components/pages/list/ListOfItems.tsx"
+import { useState } from "react"
 
 const firebaseConfig = {
   apiKey: "AIzaSyB2DxDn0VT7kCGQZKmeXmKmG5zWcM8qHSA",
@@ -17,16 +18,29 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
+
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
+
+const [user, setUser] = useState<any>();
+
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    setUser(user);
+  }
+  else{
+    setUser(null);
+  }
+});
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
+        <Route path="/login" element={<AuthPage user={user} />} />
+        <Route path="/register" element={<AuthPage user={user} />} />
+        <Route path="/list" element={<ListOfItems app={app} user={user} />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
