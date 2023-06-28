@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 function LandingNavBar() {
   return (
@@ -49,7 +48,7 @@ function LandingNavBar() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default LandingNavBar;
+export default LandingNavBar
