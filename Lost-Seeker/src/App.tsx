@@ -5,7 +5,7 @@ import LoginPage from "./components/pages/login/LoginPage.tsx"
 import ErrorPage from "./components/pages/error/ErrorPage.tsx"
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import ListOfItems from "./components/pages/landing/ListOfItems"
+import ListOfItems from "./components/pages/list/ListOfItems.tsx"
 
 const firebaseConfig = {
   apiKey: "AIzaSyB2DxDn0VT7kCGQZKmeXmKmG5zWcM8qHSA",

@@ -1,14 +1,22 @@
-import { Timestamp } from "firebase/firestore/lite"
 
+interface Props {
+  nameOfObject: string;
+  place: string;
+  time: string;
+}
 
-const Item = ( nameOfObject: string, place: string ) => {
+const Item = ( {nameOfObject, place, time}: Props ) => {
 
-    function QuizPage(){
+  function QuizPage(){
 
-    }
+  }
 
   return (
-    <div onClick={QuizPage}></div>
+    <div onClick={QuizPage}>
+      <div>{nameOfObject}</div>
+      <div>{place}</div>
+      <div>{time}</div>
+    </div>
   )
 }
 
