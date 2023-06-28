@@ -1,14 +1,12 @@
-
 interface Props {
   nameOfObject: string;
   place: string;
   time: string;
 }
 
-const Item = ( {nameOfObject, place, time}: Props ) => {
-
-  function QuizPage(){
-
+const Item = ({ nameOfObject, place, time }: Props) => {
+  function QuizPage() {
+    console.log("");
   }
 
   return (
@@ -17,7 +15,7 @@ const Item = ( {nameOfObject, place, time}: Props ) => {
       <div>{place}</div>
       <div>{time}</div>
     </div>
-  )
-}
+  );
+};
 
-export default Item
+export default Item;
