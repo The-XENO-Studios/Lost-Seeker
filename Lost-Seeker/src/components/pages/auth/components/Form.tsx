@@ -3,7 +3,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
-  PhoneAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth"
 import { auth } from "../../../../App.tsx"
 import { useState } from "react"
@@ -15,6 +16,9 @@ function Form({ page }: props) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+
+  const provider = new GoogleAuthProvider()
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (page === "register") {
@@ -26,17 +30,25 @@ function Form({ page }: props) {
   const registerUser = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
-      await sendEmailVerification(auth.currentUser)
-    } catch (e: any) {
-      setError(formatError(e.code))
+      await sendEmailVerification(auth.currentUser!)
+    } catch (err: any) {
+      setError(formatError(err.code))
     }
   }
   const loginUser = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       console.log(auth)
-    } catch (e: any) {
-      setError(formatError(e.code))
+    } catch (err: any) {
+      setError(formatError(err.code))
+    }
+  }
+  const handleGoogleAuthentication = async () => {
+    try {
+      await signInWithPopup(auth, provider)
+      console.log(auth)
+    } catch (err: any) {
+      setError(formatError(err.code))
     }
   }
   const formatError = (errorMessage: string): string => {
@@ -121,6 +133,7 @@ function Form({ page }: props) {
             <button
               type="button"
               className="mt-5 text-blue border-2 border-blue hover:scale-105 focus:scale-95 font-bold rounded-lg text-md px-4 py-2 text-center inline-flex items-center mr-2 mb-2"
+              onClick={handleGoogleAuthentication}
             >
               <svg
                 className="w-4 h-4 mr-2 -ml-1"

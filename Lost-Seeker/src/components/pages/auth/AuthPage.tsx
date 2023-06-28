@@ -3,17 +3,17 @@ import { useState, useEffect } from "react"
 import Form from "./components/Form.tsx"
 import Card from "./components/Card.tsx"
 type pageType = "login" | "register"
-interface Props{
-  user: any;
+interface Props {
+  user: any
 }
-function LoginPage({user}: Props) {
+function LoginPage({ user }: Props) {
   const [page, setPage] = useState<pageType>("login")
   const location: any = useLocation().pathname.replace("/", "")
   useEffect(() => {
     setPage(location)
   }, [location])
-  if(user){
-    return <Navigate to="/list"/>
+  if (user) {
+    return <Navigate to="/list" />
   }
   return (
     <div className="md:h-full lg:mt-10 xl:mt-16">
