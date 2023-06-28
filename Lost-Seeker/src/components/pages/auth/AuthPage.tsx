@@ -1,7 +1,15 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import Form from "./components/Form.tsx"
 import Card from "./components/Card.tsx"
-function LoginPage() {
+
+interface Props{
+  user: any;
+}
+
+function LoginPage({user}: Props) {
+  if(user){
+    return <Navigate to="/list"/>
+  }
   return (
     <div className="md:h-full lg:mt-10 xl:mt-16">
       <div className="md:flex md:h-full max-w-screen-lg mx-auto max-h-[50rem] md:bg-white md:rounded-2xl md:drop-shadow-2xl">
