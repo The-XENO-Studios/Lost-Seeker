@@ -3,21 +3,19 @@ import Item from "./Item";
 import {
   getFirestore,
   collection,
-  getDocs,
   query,
   orderBy,
   limit,
+  onSnapshot,
 } from "firebase/firestore";
 import { FirebaseApp } from "firebase/app";
-import LandingNavBar from "../landing/components/LandingNavBar";
-import { Navigate } from "react-router-dom";
+import ListNavBar from "./ListNavBar";
 
 interface Props {
   app: FirebaseApp;
-  user: any;
 }
 
-function ListOfItems({ app, user }: Props) {
+function ListOfItems({ app }: Props) {
   const [finalItem, setFinalItem] = useState<any>();
   const [items, setItems] = useState<any>([]);
 
@@ -25,20 +23,34 @@ function ListOfItems({ app, user }: Props) {
   const ref = collection(db, "items");
   const q = query(ref, orderBy("time"), limit(10));
 
-  getDocs(q).then((snapShot) => {
-    snapShot.docs.forEach((doc) => {
-      setItems((currentArray: any) => {
-        return [...currentArray, doc.data];
-      });
-      setFinalItem(doc);
+  useEffect(() => {
+    const unsubscribe = onSnapshot(q, (snapShot) => {
+      const updatedItems = snapShot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setItems([...items, ...updatedItems]);
+      setFinalItem(items[items.length - 1]);
     });
-  });
+
+    return () => unsubscribe(); // Cleanup the listener when the component unmounts
+  }, []);
 
   return (
     <div>
-      <LandingNavBar />
-
-      {!user ? <Navigate to="/" /> : <></>}
+      <ListNavBar />
+      <div className="list">
+        {items.map((item: any) => {
+          return (
+            <Item
+              nameOfObject={item.nameOfObject}
+              place={item.place}
+              time={item.time}
+              keyProp={item.id}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

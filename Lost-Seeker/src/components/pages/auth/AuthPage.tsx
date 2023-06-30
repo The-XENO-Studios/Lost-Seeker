@@ -1,19 +1,19 @@
-import { Link, useLocation, Navigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import Form from "./components/Form.tsx"
-import Card from "./components/Card.tsx"
-type pageType = "login" | "register"
+import { Link, useLocation, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Form from "./components/Form.tsx";
+import Card from "./components/Card.tsx";
+type pageType = "login" | "register";
 interface Props {
-  user: any
+  user: any;
 }
 function LoginPage({ user }: Props) {
-  const [page, setPage] = useState<pageType>("login")
-  const location: any = useLocation().pathname.replace("/", "")
+  const [page, setPage] = useState<pageType>("login");
+  const location: any = useLocation().pathname.replace("/", "");
   useEffect(() => {
-    setPage(location)
-  }, [location])
+    setPage(location);
+  }, [location]);
   if (user) {
-    return <Navigate to="/list" />
+    return <Navigate to="/list" />;
   }
   return (
     <div className="md:h-full lg:mt-10 xl:mt-16">
@@ -44,6 +44,6 @@ function LoginPage({ user }: Props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default LoginPage
+export default LoginPage;

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { auth } from "../../../../App";
+import { auth } from "../../../App";
 
-function LandingNavBar() {
+function ListNavBar() {
   function SignOut() {
     signOut(auth);
   }
@@ -18,29 +18,14 @@ function LandingNavBar() {
         <div className="flex flex-row items-center gap-4 md:text-base xl:text-lg font-medium ">
           <Link
             className="hidden md:block transition-transform hover:scale-95"
-            to="/list"
-          >
-            Items
-          </Link>
-          <Link
-            className="hidden md:block transition-transform hover:scale-95"
             to="/about"
           >
             Contribute
           </Link>
-          <Link className="transition-transform hover:scale-95" to="/samples">
-            About
-          </Link>
-          <Link
-            className="hidden sm:block transition-transform hover:scale-95"
-            to="/pricing"
-          >
-            Q and A
-          </Link>
         </div>
         {auth.currentUser ? (
           <div
-            className="bg-black text-white rounded-full w-28 lg:w-32 hidden md:flex items-center justify-center py-1 md:py-2 text-lg font-bold transition-transform hover:scale-95"
+            className="bg-white text-text_primary border-2 border-text_primary rounded-full w-28 lg:w-32 flex items-center justify-center py-1 md:py-2 text-lg font-bold transition-transform hover:scale-95"
             onClick={SignOut}
           >
             Sign Out
@@ -66,4 +51,4 @@ function LandingNavBar() {
   );
 }
 
-export default LandingNavBar;
+export default ListNavBar;
