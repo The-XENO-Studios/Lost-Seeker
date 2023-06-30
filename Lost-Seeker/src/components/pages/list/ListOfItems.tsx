@@ -39,7 +39,7 @@ function ListOfItems({ app }: Props) {
   return (
     <div>
       <ListNavBar />
-      <div className="list">
+      <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[100vw] justify-center">
         {items.map((item: any) => {
           return (
             <Item
