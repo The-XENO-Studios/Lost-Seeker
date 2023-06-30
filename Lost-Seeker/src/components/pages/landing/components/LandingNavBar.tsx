@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../../App";
 import { useEffect } from "react";
+import LoginButtonNav from "./LoginButtonNav";
+import RegisterButtonNav from "./RegisterButtonNav";
+import SignOutButton from "../../../shared/SignoutButton";
 
 function LandingNavBar({ onTop }: { onTop: boolean }) {
   function SignOut() {
@@ -44,26 +47,11 @@ function LandingNavBar({ onTop }: { onTop: boolean }) {
           </Link>
         </div>
         {auth.currentUser ? (
-          <div
-            className="bg-black text-white rounded-full w-28 lg:w-32 hidden md:flex items-center justify-center py-1 md:py-2 text-lg font-bold transition-transform hover:scale-95"
-            onClick={SignOut}
-          >
-            Sign Out
-          </div>
+          <SignOutButton signOut={SignOut} />
         ) : (
           <div className="flex flex-row items-center gap-3 lg:gap-4">
-            <Link
-              className="bg-black text-white rounded-full w-28 lg:w-32 hidden md:flex items-center justify-center py-1 md:py-2 text-lg font-bold transition-transform hover:scale-95"
-              to={"/login"}
-            >
-              Login
-            </Link>
-            <Link
-              className="bg-white text-text_primary border-2 border-text_primary rounded-full w-28 lg:w-32 flex items-center justify-center py-1 md:py-2 text-lg font-bold transition-transform hover:scale-95"
-              to={"/register"}
-            >
-              Register
-            </Link>
+            <LoginButtonNav />
+            <RegisterButtonNav />
           </div>
         )}
       </div>
