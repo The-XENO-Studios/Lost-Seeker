@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import LandingNavBar from "./components/LandingNavBar";
 import { useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
+import NavBar from "../../shared/NavBar";
 
 function LandingPage() {
   const [onTop, setOnTop] = useState(false);
@@ -19,7 +20,10 @@ function LandingPage() {
       onScroll={handleScroll}
       className="flex flex-col items-center w-screen overflow-x-hidden h-screen relative"
     >
-      <LandingNavBar onTop={onTop} />
+      <NavBar
+        onTop={onTop}
+        links={["Items", "Contribute", "About", "Questions"]}
+      />
 
       <div className="h-[36rem] w-[36rem] left-48 bottom-36 absolute">
         <div className="p-20 h-full w-full bg-lightBlue  rounded-full blur-3xl"></div>
