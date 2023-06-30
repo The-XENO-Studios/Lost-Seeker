@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import LandingNavBar from "./components/LandingNavBar";
 import { useState } from "react";
+import LottiePlayer from "../../shared/LottiePlayer";
 
 function LandingPage() {
   const [onTop, setOnTop] = useState(false);
@@ -54,6 +55,57 @@ function LandingPage() {
           >
             <b>Lost</b> something?
           </Link>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center justify-center mt-20 md:pt-72 gap-8 md:gap-4 lg:gap-8 w-full px-8 md:px-4 lg:px-8 pb-8">
+        <div className="h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
+          <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
+          <p className="font-light text-lg">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+            Lorem ipsum dolor sit amet.
+          </p>
+          <LottiePlayer
+            className="w-[150px] h-[150px] mt-2"
+            src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
+            loop
+            autoplay
+          />
+        </div>
+        <div className="h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
+          <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
+          <p className="font-light text-lg">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+            Lorem ipsum dolor sit amet.
+          </p>
+          <LottiePlayer
+            className="w-[150px] h-[150px] mt-2"
+            src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
+            loop
+            autoplay
+          />
+        </div>
+        <div className="h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
+          <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
+          <p className="font-light text-lg">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+            Lorem ipsum dolor sit amet.
+          </p>
+          <LottiePlayer
+            className="w-[150px] h-[150px] mt-2"
+            src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
+            loop
+            autoplay
+          />
         </div>
       </div>
     </div>
