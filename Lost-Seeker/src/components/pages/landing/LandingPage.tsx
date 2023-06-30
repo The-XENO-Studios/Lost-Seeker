@@ -1,10 +1,24 @@
 import { Link } from "react-router-dom";
 import LandingNavBar from "./components/LandingNavBar";
+import { useState } from "react";
 
 function LandingPage() {
+  const [onTop, setOnTop] = useState(false);
+
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    if (e.currentTarget.scrollTop === 0) {
+      setOnTop(true);
+    } else {
+      setOnTop(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center w-screen overflow-x-hidden h-screen relative">
-      <LandingNavBar />
+    <div
+      onScroll={handleScroll}
+      className="flex flex-col items-center w-screen overflow-x-hidden h-screen relative"
+    >
+      <LandingNavBar onTop={onTop} />
 
       <div className="h-[36rem] w-[36rem] left-48 bottom-36 absolute">
         <div className="p-20 h-full w-full bg-lightBlue  rounded-full blur-3xl"></div>
@@ -28,14 +42,14 @@ function LandingPage() {
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center pt-8 gap-2">
           <Link
-            className="bg-lightBlue text-darkBlue rounded-full w-fit px-4 py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-blue shadow-md"
+            className="bg-black text-white rounded-full w-fit px-4 py-2 text-lg font-bold transition-transform hover:scale-95 shadow-md border-2 border-black"
             to="/"
           >
             <b>Found</b> something?
           </Link>
-          <p className="animate-pulse text-darkBlue ">or</p>
+          <p className="animate-pulse text-black ">or</p>
           <Link
-            className="bg-lightBlue text-darkBlue rounded-full w-fit px-4 py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-blue "
+            className="bg-white text-black rounded-full w-fit px-4 py-2 text-lg font-bold transition-transform hover:scale-95  shadow-md border-2 border-black"
             to="/"
           >
             <b>Lost</b> something?
