@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { FirebaseApp } from "firebase/app";
 import ListNavBar from "./ListNavBar";
+import NavBar from "../../shared/NavBar";
 
 interface Props {
   app: FirebaseApp;
@@ -18,10 +19,19 @@ interface Props {
 function ListOfItems({ app }: Props) {
   const [finalItem, setFinalItem] = useState<any>();
   const [items, setItems] = useState<any>([]);
+  const [onTop, setOnTop] = useState(false);
 
   const db = getFirestore(app);
   const ref = collection(db, "items");
   const q = query(ref, orderBy("time"), limit(10));
+
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    if (e.currentTarget.scrollTop === 0) {
+      setOnTop(true);
+    } else {
+      setOnTop(false);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(q, (snapShot) => {
@@ -38,7 +48,7 @@ function ListOfItems({ app }: Props) {
 
   return (
     <div>
-      <ListNavBar />
+      <NavBar onTop={onTop} links={["Contribute"]} />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[100vw] justify-center">
         {items.map((item: any) => {
           return (
