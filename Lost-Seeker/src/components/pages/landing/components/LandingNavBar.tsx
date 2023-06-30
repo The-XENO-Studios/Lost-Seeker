@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../../App";
+import { useEffect } from "react";
 
-function LandingNavBar() {
+function LandingNavBar({ onTop }: { onTop: boolean }) {
   function SignOut() {
     signOut(auth);
   }
 
   return (
-    <div className="fixed h-20 w-full bg-transparent shadow-md flex flex-row justify-between items-center px-4 sm:px-10 md:px-10 lg:px-14 xl:px-16 z-20 ">
+    <div
+      className={`fixed h-20 w-full  shadow-md flex flex-row justify-between items-center px-4 sm:px-10 md:px-10 lg:px-14 xl:px-16 z-20 ${
+        onTop ? "bg-transparent" : "bg-white"
+      }`}
+    >
       <div className="flex flex-row items-center">
         <h1 className="font-extrabold text-xl  md:text-2xl lg:text-3xl text-black">
           <Link to="/">LostSeeker</Link>
