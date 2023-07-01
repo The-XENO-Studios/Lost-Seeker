@@ -1,27 +1,20 @@
 import { useEffect, useState } from "react";
 import Item from "./Item";
 import {
-  getFirestore,
   collection,
   query,
   orderBy,
   limit,
   onSnapshot,
 } from "firebase/firestore";
-import { FirebaseApp } from "firebase/app";
-import ListNavBar from "./ListNavBar";
 import NavBar from "../../shared/NavBar";
+import { db } from "../../../App";
 
-interface Props {
-  app: FirebaseApp;
-}
-
-function ListOfItems({ app }: Props) {
+function ListOfItems() {
   const [finalItem, setFinalItem] = useState<any>();
   const [items, setItems] = useState<any>([]);
   const [onTop, setOnTop] = useState(false);
 
-  const db = getFirestore(app);
   const ref = collection(db, "items");
   const q = query(ref, orderBy("time"), limit(10));
 
@@ -48,7 +41,7 @@ function ListOfItems({ app }: Props) {
 
   return (
     <div>
-      <NavBar onTop={onTop} links={["Contribute"]} />
+      <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[100vw] justify-center">
         {items.map((item: any) => {
           return <Item data={item} />;

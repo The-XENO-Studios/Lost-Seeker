@@ -34,7 +34,7 @@ function NavBar({
           {links.map((link) => (
             <Link
               className="hidden md:block transition-transform hover:scale-95"
-              to={link.toLowerCase()}
+              to={`/${link.replace(/\s/g, "").toLowerCase()}`}
             >
               {link}
             </Link>

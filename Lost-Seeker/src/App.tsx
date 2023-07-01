@@ -5,7 +5,9 @@ import ErrorPage from "./components/pages/error/ErrorPage.tsx";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListOfItems from "./components/pages/list/ListOfItems.tsx";
+import FoundItem from "./components/pages/FoundItem/FoundItem.tsx";
 import { useState } from "react";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB2DxDn0VT7kCGQZKmeXmKmG5zWcM8qHSA",
@@ -21,6 +23,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 function App() {
   const [user, setUser] = useState<any>();
@@ -39,7 +42,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<AuthPage user={user} />} />
         <Route path="/register" element={<AuthPage user={user} />} />
-        <Route path="/list" element={<ListOfItems app={app} />} />
+        <Route path="/list" element={<ListOfItems />} />
+        <Route path="/foundreport" element={<FoundItem user={user} />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

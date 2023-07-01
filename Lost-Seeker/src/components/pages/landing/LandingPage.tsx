@@ -47,14 +47,14 @@ function LandingPage() {
         <div className="flex flex-col md:flex-row justify-center items-center pt-8 gap-2">
           <Link
             className="bg-black text-white rounded-full w-fit px-4 py-2 text-lg font-bold transition-transform hover:scale-95 shadow-md border-2 border-black"
-            to="/"
+            to="/foundreport"
           >
             <b>Found</b> something?
           </Link>
           <p className="animate-pulse text-black ">or</p>
           <Link
             className="bg-white text-black rounded-full w-fit px-4 py-2 text-lg font-bold transition-transform hover:scale-95  shadow-md border-2 border-black"
-            to="/"
+            to="/list"
           >
             <b>Lost</b> something?
           </Link>
