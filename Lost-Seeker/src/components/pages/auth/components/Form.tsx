@@ -128,7 +128,7 @@ function Form({ page }: props) {
           </button>
           <div className="text-center">
             <pre className="font-['RobotoSlab'] text-lg text-lightGray mt-10 md:mt-14 flex items-center before:border before:h-px before:flex-grow after:border after:h-px after:flex-grow">
-              {""} Or {page} with{" "}
+              {"  Or  "}
             </pre>
             <button
               type="button"
