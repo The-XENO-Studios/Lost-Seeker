@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import LandingNavBar from "./components/LandingNavBar";
 import { useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
@@ -22,7 +21,7 @@ function LandingPage() {
     >
       <NavBar
         onTop={onTop}
-        links={["Items", "Contribute", "About", "Questions"]}
+        links={["List", "Contribute", "About", "Questions"]}
       />
 
       <div className="h-[36rem] w-[36rem] left-48 bottom-36 absolute">

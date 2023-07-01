@@ -4,7 +4,7 @@ import { signOut } from "firebase/auth";
 import { FC, useEffect } from "react";
 import LoginButtonNav from "../pages/landing/components/LoginButtonNav";
 import RegisterButtonNav from "../pages/landing/components/RegisterButtonNav";
-import SignOutButton from "./SignoutButton";
+import SignOutButton from "./SignOutButton";
 import { auth } from "../../App";
 
 function NavBar({

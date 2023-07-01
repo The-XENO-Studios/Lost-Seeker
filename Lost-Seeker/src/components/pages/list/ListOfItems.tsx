@@ -51,14 +51,7 @@ function ListOfItems({ app }: Props) {
       <NavBar onTop={onTop} links={["Contribute"]} />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[100vw] justify-center">
         {items.map((item: any) => {
-          return (
-            <Item
-              nameOfObject={item.nameOfObject}
-              place={item.place}
-              time={item.time}
-              keyProp={item.id}
-            />
-          );
+          return <Item data={item} />;
         })}
       </div>
     </div>
