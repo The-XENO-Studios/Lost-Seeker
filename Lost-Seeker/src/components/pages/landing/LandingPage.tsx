@@ -2,9 +2,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
+import { useInView } from "react-intersection-observer";
 
 function LandingPage() {
   const [onTop, setOnTop] = useState(false);
+
+  const { ref, inView } = useInView({
+    /* Optional options */
+    threshold: 0.5,
+    triggerOnce: true,
+  });
 
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
     if (e.currentTarget.scrollTop === 0) {
@@ -61,8 +68,13 @@ function LandingPage() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-center mt-20 md:pt-72 gap-8 md:gap-4 lg:gap-8 w-full px-8 md:px-4 lg:px-8 pb-8">
-        <div className="h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
+      <div
+        ref={ref}
+        className={`flex flex-col md:flex-row items-center justify-center mt-20 md:mt-96 gap-8 md:gap-4 lg:gap-8 w-full px-8 md:px-4 lg:px-8 mb-8  hidden-card  ${
+          inView && "show-card"
+        }`}
+      >
+        <div className="card  h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
           <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
           <p className="font-light text-lg">
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
@@ -78,7 +90,7 @@ function LandingPage() {
             autoplay
           />
         </div>
-        <div className="h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
+        <div className="card  h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
           <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
           <p className="font-light text-lg">
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
@@ -94,7 +106,7 @@ function LandingPage() {
             autoplay
           />
         </div>
-        <div className="h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
+        <div className="card  h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
           <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
           <p className="font-light text-lg">
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
