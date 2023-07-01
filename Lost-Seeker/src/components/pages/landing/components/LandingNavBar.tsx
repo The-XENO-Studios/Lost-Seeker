@@ -4,7 +4,7 @@ import { auth } from "../../../../App";
 import { useEffect } from "react";
 import LoginButtonNav from "./LoginButtonNav";
 import RegisterButtonNav from "./RegisterButtonNav";
-import SignOutButton from "../../../shared/SignoutButton";
+import SignOutButton from "../../../shared/SignOutButton";
 
 function LandingNavBar({ onTop }: { onTop: boolean }) {
   function SignOut() {

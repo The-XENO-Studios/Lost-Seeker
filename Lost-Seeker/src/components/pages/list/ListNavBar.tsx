@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../App";
-import SignOutButton from "../../shared/SignoutButton";
+import SignOutButton from "../../shared/SignOutButton";
 
 function ListNavBar() {
   function SignOut() {
