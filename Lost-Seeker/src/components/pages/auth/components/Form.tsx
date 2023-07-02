@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -31,6 +31,7 @@ function Form({ page }: props) {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       await sendEmailVerification(auth.currentUser!)
+      return <Navigate to="/login" />
     } catch (err: any) {
       setError(formatError(err.code))
     }
@@ -38,7 +39,10 @@ function Form({ page }: props) {
   const loginUser = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
-      console.log(auth)
+      if (!auth?.currentUser?.emailVerified) {
+        throw "Verify your email"
+      }
+      return <Navigate to="/list" />
     } catch (err: any) {
       setError(formatError(err.code))
     }
@@ -46,7 +50,6 @@ function Form({ page }: props) {
   const handleGoogleAuthentication = async () => {
     try {
       await signInWithPopup(auth, provider)
-      console.log(auth)
     } catch (err: any) {
       setError(formatError(err.code))
     }
