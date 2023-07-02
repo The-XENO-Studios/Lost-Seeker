@@ -1,11 +1,12 @@
 import { Navigate } from "react-router-dom";
 import NavBar from "../../shared/NavBar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { db } from "../../../App";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Leaflet.css";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface Props {
   user: any;
@@ -21,6 +22,8 @@ function FoundItem({ user }: Props) {
   const ref = collection(db, "items");
 
   const [onTop, setOnTop] = useState(false);
+
+  const mapRef = useRef<any>();
 
   /*const docRef = addDoc(ref, {
     nameOfObject: nameOfObject,
@@ -42,19 +45,31 @@ function FoundItem({ user }: Props) {
   return (
     <div>
       <NavBar onTop={onTop} links={["List", "Contribute"]} />
-      <div>
+      <button
+        className="w-36 h-36 mt-11"
+        onClick={() => {
+          mapRef.current.showModal();
+        }}
+      >
+        Map Button
+      </button>
+      <dialog ref={mapRef} className="bg-transparent">
+        <div
+          className="absolute right-[20px] top-[20px] z-[401] cursor-pointer"
+          onClick={() => {
+            mapRef.current.close();
+          }}
+        >
+          <AiOutlineCloseCircle size={50} />
+        </div>
         <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[51.505, -0.09]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          <Marker position={[51.505, -0.09]}></Marker>
         </MapContainer>
-      </div>
+      </dialog>
     </div>
   );
 }
