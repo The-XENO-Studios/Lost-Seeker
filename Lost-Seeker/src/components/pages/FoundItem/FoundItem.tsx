@@ -1,16 +1,25 @@
 import { Navigate } from "react-router-dom";
 import NavBar from "../../shared/NavBar";
-import { useRef, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import { db } from "../../../App";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Leaflet.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiSolidLocationPlus } from "react-icons/bi";
 
 interface Props {
   user: any;
 }
+
+const context = createContext();
 
 function FoundItem({ user }: Props) {
   if (!user) {
@@ -18,6 +27,7 @@ function FoundItem({ user }: Props) {
   }
 
   const [nameOfObject, setNameOfObject] = useState();
+  const [place, setPlace] = useState();
 
   const ref = collection(db, "items");
 
@@ -62,15 +72,47 @@ function FoundItem({ user }: Props) {
         >
           <AiOutlineCloseCircle size={50} />
         </div>
+        <div
+          className="absolute right-[30px] bottom-[50px] z-[401] cursor-pointer"
+          onClick={() => {
+            useContext(context);
+          }}
+        >
+          <BiSolidLocationPlus size={50} />
+        </div>
         <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[51.505, -0.09]}></Marker>
+          <LocationMarker />
         </MapContainer>
       </dialog>
     </div>
+  );
+}
+
+function LocationMarker() {
+  const [position, setPosition] = useState(null);
+
+  const map = useMapEvents({
+    locationfound(e: any) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    },
+  });
+
+  function Locate() {
+    map.locate();
+  }
+
+  return position === null ? null : (
+    <>
+      <context.Provider value={Locate} />
+      <Marker position={position}>
+        <Popup>You are here</Popup>
+      </Marker>
+    </>
   );
 }
 
