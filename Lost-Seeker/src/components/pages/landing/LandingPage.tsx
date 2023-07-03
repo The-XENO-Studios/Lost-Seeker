@@ -9,7 +9,7 @@ function LandingPage() {
 
   const { ref, inView } = useInView({
     /* Optional options */
-    threshold: 0.5,
+    threshold: 0.2,
     triggerOnce: true,
   });
 
