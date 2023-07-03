@@ -1,4 +1,6 @@
 import { useInView } from "react-intersection-observer"
+import {BsCalendar} from "react-icons/bs"
+import { FaMapLocationDot } from "react-icons/fa6"
 
 interface Props {
   data: any
@@ -26,12 +28,12 @@ const Item = ({ data }: Props) => {
         {data.nameOfObject}
       </div>
       <div className="mb-5 flex flex-col items-center">
-        <div className="text-lightGray text-center font-bold text-xl break-words mt-5 flex items-center">
-          <img src="IcOutlineLocationOn.svg" alt="location logo" />
+        <div className="text-lightGray text-center font-bold text-xl break-words mt-5 flex items-center gap-1">
+          <FaMapLocationDot size={20} />
           {data.place}
         </div>
-        <div className="text-lightGray font-bold text-center flex items-center mt-3">
-          <img src="IcOutlineCalendarToday.svg" alt="calendar logo" />
+        <div className="text-lightGray font-bold text-center flex items-center mt-3 gap-1">
+          <BsCalendar size={20} />
           {data.time}
         </div>
       </div>
