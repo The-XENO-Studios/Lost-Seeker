@@ -68,18 +68,20 @@ function NavBar({
         )}
       </div>
 
-      {showMobileNav && (
-        <div className="fixed md:hidden z-10 left-0 w-44 h-full bg-white flex flex-col top-16 px-4 pt-4 gap-2">
-          {links.map((link) => (
-            <Link
-              className="transition-transform hover:scale-95 text-lg"
-              to={`/${link.replace(/\s/g, "").toLowerCase()}`}
-            >
-              {link}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div
+        className={`fixed md:hidden z-10 left-0 w-44 h-full bg-white flex flex-col top-16 px-4 pt-4 gap-2 ${
+          showMobileNav ? "fade-in-nav" : "fade-out-nav"
+        } `}
+      >
+        {links.map((link) => (
+          <Link
+            className="transition-transform hover:scale-95 text-lg"
+            to={`/${link.replace(/\s/g, "").toLowerCase()}`}
+          >
+            {link}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
