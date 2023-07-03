@@ -51,6 +51,8 @@ function FoundItem({ user }: Props) {
     }
   };
 
+  const [mapOn, setMap] = useState(false);
+
   return (
     <div>
       <NavBar onTop={onTop} links={["List", "Contribute"]} />
@@ -58,6 +60,7 @@ function FoundItem({ user }: Props) {
         className="w-36 h-36 mt-11"
         onClick={() => {
           mapRef.current.showModal();
+          setMap(true);
         }}
       >
         Map Button
@@ -79,18 +82,20 @@ function FoundItem({ user }: Props) {
         >
           <BiSolidLocationPlus size={50} />
         </div>
-        <MapContainer
-          center={[51.505, -0.09]}
-          zoom={13}
-          scrollWheelZoom={true}
-          ref={mRef}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <LocationMarker />
-        </MapContainer>
+        {mapOn && (
+          <MapContainer
+            center={[51.505, -0.09]}
+            zoom={13}
+            scrollWheelZoom={true}
+            ref={mRef}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <LocationMarker />
+          </MapContainer>
+        )}
       </dialog>
     </div>
   );
