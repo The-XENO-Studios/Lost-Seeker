@@ -70,6 +70,7 @@ function FoundItem({ user }: Props) {
           className="absolute right-[20px] top-[20px] z-[401] cursor-pointer"
           onClick={() => {
             mapRef.current.close();
+            setMap(false);
           }}
         >
           <AiOutlineCloseCircle size={50} />
