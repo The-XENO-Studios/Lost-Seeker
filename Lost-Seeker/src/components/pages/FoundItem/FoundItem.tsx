@@ -19,8 +19,6 @@ interface Props {
   user: any;
 }
 
-const context = createContext();
-
 function FoundItem({ user }: Props) {
   if (!user) {
     return <Navigate to="/register" />;
@@ -34,6 +32,7 @@ function FoundItem({ user }: Props) {
   const [onTop, setOnTop] = useState(false);
 
   const mapRef = useRef<any>();
+  const mRef = useRef<any>();
 
   /*const docRef = addDoc(ref, {
     nameOfObject: nameOfObject,
@@ -75,12 +74,17 @@ function FoundItem({ user }: Props) {
         <div
           className="absolute right-[30px] bottom-[50px] z-[401] cursor-pointer"
           onClick={() => {
-            useContext(context);
+            mRef.current.locate();
           }}
         >
           <BiSolidLocationPlus size={50} />
         </div>
-        <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
+        <MapContainer
+          center={[51.505, -0.09]}
+          zoom={13}
+          scrollWheelZoom={true}
+          ref={mRef}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -102,13 +106,8 @@ function LocationMarker() {
     },
   });
 
-  function Locate() {
-    map.locate();
-  }
-
   return position === null ? null : (
     <>
-      <context.Provider value={Locate} />
       <Marker position={position}>
         <Popup>You are here</Popup>
       </Marker>
