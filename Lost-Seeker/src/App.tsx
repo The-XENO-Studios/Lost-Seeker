@@ -5,7 +5,7 @@ import ErrorPage from "./components/pages/error/ErrorPage.tsx";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListOfItems from "./components/pages/list/ListOfItems.tsx";
-import FoundItem from "./components/pages/FoundItem/FoundItem.tsx";
+import FoundItem from "./components/pages/foundItem/FoundItem.tsx";
 import { useState } from "react";
 import { getFirestore } from "firebase/firestore";
 

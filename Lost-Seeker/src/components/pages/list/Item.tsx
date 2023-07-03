@@ -1,16 +1,16 @@
-import { useInView } from "react-intersection-observer"
-import {BsCalendar} from "react-icons/bs"
-import { FaMapLocationDot } from "react-icons/fa6"
+import { useInView } from "react-intersection-observer";
+import { BsCalendar } from "react-icons/bs";
+import { FaMapLocationDot } from "react-icons/fa6";
 
 interface Props {
-  data: any
+  data: any;
 }
 
 const Item = ({ data }: Props) => {
-  const [ref, inView] = useInView()
+  const [ref, inView] = useInView();
 
   function QuizPage() {
-    console.log("")
+    console.log("");
   }
 
   return (
@@ -38,7 +38,7 @@ const Item = ({ data }: Props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Item
+export default Item;
