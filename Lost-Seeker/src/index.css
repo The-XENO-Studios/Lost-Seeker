@@ -34,3 +34,14 @@ html {
 .card:nth-child(3) {
   transition-delay: 800ms;
 }
+
+.fade-out-nav {
+  transform: translateX(-200px);
+
+  transition: transform 0.5s;
+}
+.fade-in-nav {
+  transform: translateX(0px);
+
+  transition: transform 0.5s;
+}
