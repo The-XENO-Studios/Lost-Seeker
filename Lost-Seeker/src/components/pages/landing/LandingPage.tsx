@@ -3,6 +3,7 @@ import { useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
 import { useInView } from "react-intersection-observer";
+import Footer from "../../shared/Footer";
 
 function LandingPage() {
   const [onTop, setOnTop] = useState(false);
@@ -123,6 +124,7 @@ function LandingPage() {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
