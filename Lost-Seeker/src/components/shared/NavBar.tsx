@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
-import { FC, useEffect, useState } from "react";
+import { useState } from "react";
 import LoginButtonNav from "../pages/landing/components/LoginButtonNav";
 import RegisterButtonNav from "../pages/landing/components/RegisterButtonNav";
 import SignOutButton from "./SignOutButton";
 import { auth } from "../../App";
-import { FaGripLines, FaGripLinesVertical } from "react-icons/fa";
+
+import { Spin as Hamburger } from "hamburger-react";
 function NavBar({
   links,
   onTop,
@@ -26,19 +27,14 @@ function NavBar({
       }`}
     >
       <div className="flex flex-row justify-start gap-4">
-        {!showMobileNav ? (
-          <FaGripLines
-            className="md:hidden ml-2"
-            size={25}
-            onClick={() => setShowMobileNav((_prev) => !_prev)}
+        <div className="md:hidden h-fit w-fit ml-2">
+          <Hamburger
+            size={30}
+            toggled={showMobileNav}
+            toggle={setShowMobileNav}
           />
-        ) : (
-          <FaGripLinesVertical
-            className="md:hidden ml-2"
-            size={25}
-            onClick={() => setShowMobileNav((_prev) => !_prev)}
-          />
-        )}
+        </div>
+
         <div className="flex flex-row items-center">
           <h1 className="font-extrabold text-xl  md:text-2xl lg:text-3xl text-black">
             <Link to="/">LostSeeker</Link>
