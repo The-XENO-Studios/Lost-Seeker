@@ -27,25 +27,9 @@ function LandingPage() {
     y: 0,
   });
 
-  const page = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const mouseMove = (e: MouseEvent) => {
-      const mouseX = e.clientX,
-        mouseY = e.clientY;
-      const xDecimal = mouseX / window.innerWidth,
-        yDecimal = mouseY / window.innerHeight;
-
-      const maxX = page.current!.offsetWidth * 0.04,
-        maxY = page.current!.offsetHeight * 0.04;
-
-      const panX = maxX * xDecimal * -1,
-        panY = maxY * yDecimal * -1;
-      setMousePos({ x: mouseX, y: mouseY });
-      page.current?.animate(
-        { transform: `translate(${panX}px, ${panY}px)` },
-        { duration: 500, fill: "forwards", easing: "ease" }
-      );
+      setMousePos({ x: e.clientX, y: e.clientY });
     };
 
     window.addEventListener("mousemove", mouseMove);
@@ -73,10 +57,7 @@ function LandingPage() {
         <div className="p-20 h-full w-full bg-lightBlue  rounded-full blur-3xl"></div>
       </div>
 
-      <div
-        ref={page}
-        className="flex flex-col items-center mt-10 sm:mt-24 md:mt-32 lg:mt-36 z-10"
-      >
+      <div className="flex flex-col items-center mt-10 sm:mt-24 md:mt-32 lg:mt-36 z-10">
         <div className="flex flex-col items-center lg:w-[40rem]">
           <h1 className="font-semibold text-4xl sm:text-5xl md:text-6xl xl:text-7xl px-4 md:px-0 py-4 text-center   mt-32 text-black">
             Return the <b className="text-blue font-extrabold">found</b> and
