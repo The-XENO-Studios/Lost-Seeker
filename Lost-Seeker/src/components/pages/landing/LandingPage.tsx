@@ -4,6 +4,7 @@ import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
 import { useInView } from "react-intersection-observer";
 import Footer from "../../shared/Footer";
+import TextCard from "./components/TextCard";
 
 function LandingPage() {
   const [onTop, setOnTop] = useState(false);
@@ -92,63 +93,32 @@ function LandingPage() {
           inView && "show-card"
         }`}
       >
-        <div className="card  h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-2xl">
-              Lost & Found Community - Reuniting Valuables
-            </h3>
-            <p className="font-light text-lg">
-              Welcome to Lost Seeker, the online community where lost and found
+        <TextCard
+          headline="Lost & Found Community - Reuniting Valuables"
+          text="Welcome to Lost Seeker, the online community where lost and found
               items meet their owners once again. Have you discovered a lost
               item that you'd like to return to its rightful owner? Or are you
               seeking to reunite with something you've lost? You're in the right
-              place!
-            </p>
-          </div>
-          <LottiePlayer
-            className="w-[150px] h-[150px] mt-2"
-            src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
-            loop
-            autoplay
-          />
-        </div>
-        <div className="card h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-2xl">
-              Be a Hero - Return Lost Items
-            </h3>
-            <p className="font-light text-lg">
-              Be a hero in someone's life! At Lost Seeker, you have the power to
-              make a difference by returning lost items to their owners. Share
-              the details of the item you found, and the owner will connect to
-              you securely. Let's spread kindness and make meaningful
-              connections through our lost and found community.
-            </p>
-          </div>
-          <LottiePlayer
-            className="w-[150px] h-[150px] mt-2"
-            src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
-            loop
-            autoplay
-          />
-        </div>
-        <div className="card  h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-2xl">Lost Something? We Can Help!</h3>
-            <p className="font-light text-lg">
-              Losing something can be stressful, but don't worry, we're here to
-              assist. Search for the details of your lost item on Lost Seeker,
-              and let the community come to your aid. Let's work together in
-              bringing lost items back to their rightful homes!
-            </p>
-          </div>
-          <LottiePlayer
-            className="w-[150px] h-[150px] mt-2"
-            src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
-            loop
-            autoplay
-          />
-        </div>
+              place!"
+          lottieSrc="https://assets3.lottiefiles.com/packages/lf20_wg0utmug.json"
+        />
+        <TextCard
+          headline="Be a Hero - Return Lost Items"
+          text="Be a hero in someone's life! At Lost Seeker, you have the power to
+          make a difference by returning lost items to their owners. Share
+          the details of the item you found, and the owner will connect to
+          you securely. Let's spread kindness and make meaningful
+          connections through our lost and found community."
+          lottieSrc="https://assets7.lottiefiles.com/packages/lf20_ugitcadw.json"
+        />
+        <TextCard
+          headline="Lost Something? We Can Help!"
+          text="Losing something can be stressful, but don't worry, we're here to
+          assist. Search for the details of your lost item on Lost Seeker,
+          and let the community come to your aid. Let's work together in
+          bringing lost items back to their rightful homes!"
+          lottieSrc="https://assets5.lottiefiles.com/packages/lf20_ukmmbtae.json"
+        />
       </div>
 
       <Footer />

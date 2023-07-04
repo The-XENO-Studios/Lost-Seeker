@@ -11,9 +11,9 @@ export default function TextCard({
   lottieSrc: string;
 }) {
   return (
-    <div className="card  h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
+    <div className="card  h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between z-20">
       <div>
-        <h3 className="font-bold text-2xl">{headline}</h3>
+        <h3 className="font-bold text-2xl text-red">{headline}</h3>
         <p className="font-light text-lg">{text}</p>
       </div>
       <LottiePlayer
