@@ -142,6 +142,7 @@ function FoundItem({ user }: Props) {
           className="absolute right-[30px] bottom-[50px] z-[401] cursor-pointer"
           onClick={() => {
             mRef.current.locate();
+            setPlace(mRef.current.position);
           }}
         >
           <BiSolidLocationPlus size={50} />
