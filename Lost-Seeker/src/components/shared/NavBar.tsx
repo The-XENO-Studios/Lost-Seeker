@@ -21,7 +21,7 @@ function NavBar({
 
   return (
     <div
-      className={`fixed h-20 w-full  shadow-md flex flex-row justify-between   md:gap-0 items-center px-2 sm:px-10 md:px-10 lg:px-14 xl:px-16 z-20 bg-white ${
+      className={`fixed h-20 w-full  shadow-md flex flex-row justify-between md:gap-0 items-center px-2 sm:px-10 md:px-10 lg:px-14 xl:px-16 z-20 bg-white ${
         onTop ? "md:bg-transparent" : ""
       }`}
     >
@@ -51,6 +51,7 @@ function NavBar({
           {links.map((link) => (
             <Link
               className="transition-transform hover:scale-95"
+              key={`/${link.replace(/\s/g, "").toLowerCase()}`}
               to={`/${link.replace(/\s/g, "").toLowerCase()}`}
             >
               {link}
@@ -76,6 +77,7 @@ function NavBar({
         {links.map((link) => (
           <Link
             className="transition-transform hover:scale-95 text-lg"
+            key={`/${link.replace(/\s/g, "").toLowerCase()}`}
             to={`/${link.replace(/\s/g, "").toLowerCase()}`}
           >
             {link}
