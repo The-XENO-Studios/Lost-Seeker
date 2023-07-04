@@ -5,11 +5,13 @@ function LottiePlayer({
   className,
   autoplay,
   loop,
+  ref,
 }: {
   src: string;
   className: string;
   autoplay?: boolean;
   loop?: boolean;
+  ref?: React.RefObject<Player>;
 }) {
   return (
     <Player
@@ -17,6 +19,7 @@ function LottiePlayer({
       autoplay={autoplay}
       loop={loop}
       src={src}
+      ref={ref}
     ></Player>
   );
 }
