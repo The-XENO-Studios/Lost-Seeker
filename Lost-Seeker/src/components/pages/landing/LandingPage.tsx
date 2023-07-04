@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
 import { useInView } from "react-intersection-observer";
@@ -20,6 +20,23 @@ function LandingPage() {
       setOnTop(false);
     }
   };
+
+  const [mousePos, setMousePos] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  useEffect(() => {
+    const mouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+
+    return () => {
+      removeEventListener("mousemove", mouseMove);
+    };
+  }, []);
 
   return (
     <div
@@ -122,6 +139,9 @@ function LandingPage() {
             autoplay
           />
         </div>
+      </div>
+      <div className="absolute" style={{ top: mousePos.y, left: mousePos.x }}>
+        <div className="rounded-full w-[300px] h-[300px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] absolute blur-[190px] bg-red animate-pulse "></div>
       </div>
     </div>
   );

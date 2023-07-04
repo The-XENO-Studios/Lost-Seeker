@@ -51,6 +51,7 @@ function NavBar({
           {links.map((link) => (
             <Link
               className="transition-transform hover:scale-95"
+              key={`/${link.replace(/\s/g, "").toLowerCase()}`}
               to={`/${link.replace(/\s/g, "").toLowerCase()}`}
             >
               {link}
@@ -76,6 +77,7 @@ function NavBar({
         {links.map((link) => (
           <Link
             className="transition-transform hover:scale-95 text-lg"
+            key={`/${link.replace(/\s/g, "").toLowerCase()}`}
             to={`/${link.replace(/\s/g, "").toLowerCase()}`}
           >
             {link}
