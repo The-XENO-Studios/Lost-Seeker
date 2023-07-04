@@ -38,7 +38,7 @@ const Item = ({ data }: Props) => {
       <div className="mb-5 flex flex-col items-center">
         <div className="text-lightGray text-center font-bold text-xl break-words mt-5 flex items-center gap-1">
           <FaMapLocationDot size={20} />
-          {data.place}
+          {data.placeName}
         </div>
         <div className="text-lightGray font-bold text-center flex items-center mt-3 gap-1">
           <BsCalendar size={20} />

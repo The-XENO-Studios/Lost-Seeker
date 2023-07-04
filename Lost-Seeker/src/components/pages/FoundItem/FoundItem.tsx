@@ -2,7 +2,12 @@ import { Navigate } from "react-router-dom";
 import NavBar from "../../shared/NavBar";
 import { useRef, useState } from "react";
 import { db } from "../../../App";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  GeoPoint,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
 import {
   MapContainer,
   Marker,
@@ -27,6 +32,8 @@ function FoundItem({ user }: Props) {
   const [nameOfObject, setNameOfObject] = useState("");
   const [contact, setContact] = useState("");
   const [place, setPlace] = useState<any>();
+  const [mapPos, setMapPos] = useState<any>();
+  const [placeName, setPlaceName] = useState<any>();
 
   const ref = collection(db, "items");
 
@@ -46,7 +53,8 @@ function FoundItem({ user }: Props) {
   const [mapOn, setMap] = useState(false);
 
   const handleMapClick = (position: any) => {
-    setPlace(position.latlng);
+    setMapPos(position.latlng);
+    setPlace([position.latlng.lat, position.latlng.lng]);
   };
 
   const Submit = async (e: any) => {
@@ -56,11 +64,14 @@ function FoundItem({ user }: Props) {
     } else {
       const docRef = await addDoc(ref, {
         nameOfObject: nameOfObject,
-        place: place,
+        place: new GeoPoint(place[0], place[1]),
+        placeName: placeName,
         time: serverTimestamp(),
         questions: {},
         messages: {},
         contactInfo: contact,
+      }).then(() => {
+        return <Navigate to="/list" />;
       });
     }
   };
@@ -91,6 +102,17 @@ function FoundItem({ user }: Props) {
             type="text"
             value={contact}
             onChange={(e) => setContact(e.currentTarget.value)}
+            required
+          />
+        </div>
+        <div className="ml-4">
+          <label className="font-extrabold text-lg  md:text-lg lg:text-xl text-black">
+            Found Place Name:
+          </label>
+          <input
+            type="text"
+            value={placeName}
+            onChange={(e) => setPlaceName(e.currentTarget.value)}
             required
           />
         </div>
@@ -136,6 +158,7 @@ function FoundItem({ user }: Props) {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <LocationMarker onMapClick={handleMapClick} />
+            {mapPos && <Marker position={mapPos}></Marker>}
           </MapContainer>
         )}
       </dialog>
