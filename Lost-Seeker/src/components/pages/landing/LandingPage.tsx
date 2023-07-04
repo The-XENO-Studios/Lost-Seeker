@@ -36,15 +36,15 @@ function LandingPage() {
       const xDecimal = mouseX / window.innerWidth,
         yDecimal = mouseY / window.innerHeight;
 
-      const maxX = page.current!.offsetWidth * 0.1,
-        maxY = page.current!.offsetHeight * 0.1;
+      const maxX = page.current!.offsetWidth * 0.04,
+        maxY = page.current!.offsetHeight * 0.04;
 
       const panX = maxX * xDecimal * -1,
         panY = maxY * yDecimal * -1;
       setMousePos({ x: mouseX, y: mouseY });
       page.current?.animate(
         { transform: `translate(${panX}px, ${panY}px)` },
-        { duration: 2000, fill: "forwards", easing: "ease" }
+        { duration: 500, fill: "forwards", easing: "ease" }
       );
     };
 
@@ -157,11 +157,8 @@ function LandingPage() {
             <p className="font-light text-lg">
               Losing something can be stressful, but don't worry, we're here to
               assist. Search for the details of your lost item on Lost Seeker,
-              and let the community come to your aid. Our platform provides a
-              safe and efficient way to reach out to potential finders,
-              increasing the chances of reuniting you with your beloved
-              belongings. Let's work together in bringing lost items back to
-              their rightful homes!
+              and let the community come to your aid. Let's work together in
+              bringing lost items back to their rightful homes!
             </p>
           </div>
           <LottiePlayer
