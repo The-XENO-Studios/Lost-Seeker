@@ -5,6 +5,7 @@ import {
   sendEmailVerification,
   GoogleAuthProvider,
   signInWithPopup,
+  signOut,
 } from "firebase/auth"
 import { auth } from "../../../../App.tsx"
 import { useState } from "react"
@@ -41,7 +42,7 @@ function Form({ page }: props) {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       if (!auth?.currentUser?.emailVerified) {
-        console.log("hooo")
+        signOut(auth)
         throw { code: "Verify your email" }
       }
       navigate("/list")
