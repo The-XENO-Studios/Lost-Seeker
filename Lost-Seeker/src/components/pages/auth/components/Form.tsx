@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -18,9 +18,10 @@ function Form({ page }: props) {
   const [error, setError] = useState("")
 
   const provider = new GoogleAuthProvider()
-
+  const navigate = useNavigate()
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError("")
     if (page === "register") {
       registerUser()
     } else {
@@ -31,7 +32,7 @@ function Form({ page }: props) {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       await sendEmailVerification(auth.currentUser!)
-      return <Navigate to="/login" />
+      navigate("/login")
     } catch (err: any) {
       setError(formatError(err.code))
     }
@@ -40,9 +41,10 @@ function Form({ page }: props) {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       if (!auth?.currentUser?.emailVerified) {
-        throw "Verify your email"
+        console.log("hooo")
+        throw { code: "Verify your email" }
       }
-      return <Navigate to="/list" />
+      navigate("/list")
     } catch (err: any) {
       setError(formatError(err.code))
     }
