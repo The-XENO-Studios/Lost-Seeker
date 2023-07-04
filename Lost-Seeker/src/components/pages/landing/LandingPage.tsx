@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
 import { useInView } from "react-intersection-observer";
@@ -27,9 +27,25 @@ function LandingPage() {
     y: 0,
   });
 
+  const page = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const mouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      const mouseX = e.clientX,
+        mouseY = e.clientY;
+      const xDecimal = mouseX / window.innerWidth,
+        yDecimal = mouseY / window.innerHeight;
+
+      const maxX = page.current!.offsetWidth * 0.1,
+        maxY = page.current!.offsetHeight * 0.1;
+
+      const panX = maxX * xDecimal * -1,
+        panY = maxY * yDecimal * -1;
+      setMousePos({ x: mouseX, y: mouseY });
+      page.current?.animate(
+        { transform: `translate(${panX}px, ${panY}px)` },
+        { duration: 2000, fill: "forwards", easing: "ease" }
+      );
     };
 
     window.addEventListener("mousemove", mouseMove);
@@ -42,7 +58,7 @@ function LandingPage() {
   return (
     <div
       onScroll={handleScroll}
-      className="flex flex-col items-center w-screen overflow-x-hidden h-screen relative"
+      className="flex flex-col items-center w-screen overflow-x-hidden h-screen relative "
     >
       <NavBar
         onTop={onTop}
@@ -57,7 +73,10 @@ function LandingPage() {
         <div className="p-20 h-full w-full bg-lightBlue  rounded-full blur-3xl"></div>
       </div>
 
-      <div className="flex flex-col items-center mt-10 sm:mt-24 md:mt-32 lg:mt-36 z-10">
+      <div
+        ref={page}
+        className="flex flex-col items-center mt-10 sm:mt-24 md:mt-32 lg:mt-36 z-10"
+      >
         <div className="flex flex-col items-center lg:w-[40rem]">
           <h1 className="font-semibold text-4xl sm:text-5xl md:text-6xl xl:text-7xl px-4 md:px-0 py-4 text-center   mt-32 text-black">
             Return the <b className="text-blue font-extrabold">found</b> and
@@ -92,15 +111,19 @@ function LandingPage() {
           inView && "show-card"
         }`}
       >
-        <div className="card  h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
-          <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
-          <p className="font-light text-lg">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet.
-          </p>
+        <div className="card  h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
+          <div>
+            <h3 className="font-bold text-2xl">
+              Lost & Found Community - Reuniting Valuables
+            </h3>
+            <p className="font-light text-lg">
+              Welcome to Lost Seeker, the online community where lost and found
+              items meet their owners once again. Have you discovered a lost
+              item that you'd like to return to its rightful owner? Or are you
+              seeking to reunite with something you've lost? You're in the right
+              place!
+            </p>
+          </div>
           <LottiePlayer
             className="w-[150px] h-[150px] mt-2"
             src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
@@ -108,15 +131,19 @@ function LandingPage() {
             autoplay
           />
         </div>
-        <div className="card  h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
-          <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
-          <p className="font-light text-lg">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet.
-          </p>
+        <div className="card h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
+          <div>
+            <h3 className="font-bold text-2xl">
+              Be a Hero - Return Lost Items
+            </h3>
+            <p className="font-light text-lg">
+              Be a hero in someone's life! At Lost Seeker, you have the power to
+              make a difference by returning lost items to their owners. Share
+              the details of the item you found, and the owner will connect to
+              you securely. Let's spread kindness and make meaningful
+              connections through our lost and found community.
+            </p>
+          </div>
           <LottiePlayer
             className="w-[150px] h-[150px] mt-2"
             src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
@@ -124,15 +151,19 @@ function LandingPage() {
             autoplay
           />
         </div>
-        <div className="card  h-fit w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6">
-          <h3 className="font-bold text-2xl">Lorem ipsum dolor sit amet</h3>
-          <p className="font-light text-lg">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet.
-          </p>
+        <div className="card  h-[33rem]  md:h-[30rem] w-full bg-white shadow-lg rounded-xl max-w-[400px] md:max-w-[450px] p-6 flex flex-col justify-between">
+          <div>
+            <h3 className="font-bold text-2xl">Lost Something? We Can Help!</h3>
+            <p className="font-light text-lg">
+              Losing something can be stressful, but don't worry, we're here to
+              assist. Search for the details of your lost item on Lost Seeker,
+              and let the community come to your aid. Our platform provides a
+              safe and efficient way to reach out to potential finders,
+              increasing the chances of reuniting you with your beloved
+              belongings. Let's work together in bringing lost items back to
+              their rightful homes!
+            </p>
+          </div>
           <LottiePlayer
             className="w-[150px] h-[150px] mt-2"
             src="https://assets9.lottiefiles.com/packages/lf20_xiWykXZv3t.json"
