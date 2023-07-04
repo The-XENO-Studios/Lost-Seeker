@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import LottiePlayer from "../../shared/LottiePlayer";
 import NavBar from "../../shared/NavBar";
 import { useInView } from "react-intersection-observer";
+import Footer from "../../shared/Footer";
 
 function LandingPage() {
   const [onTop, setOnTop] = useState(false);
@@ -140,6 +141,9 @@ function LandingPage() {
           />
         </div>
       </div>
+
+      <Footer />
+
       <div className="absolute" style={{ top: mousePos.y, left: mousePos.x }}>
         <div className="rounded-full w-[300px] h-[300px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] absolute blur-[190px] bg-red animate-pulse "></div>
       </div>
