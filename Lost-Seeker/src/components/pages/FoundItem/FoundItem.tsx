@@ -25,7 +25,8 @@ function FoundItem({ user }: Props) {
   }
 
   const [nameOfObject, setNameOfObject] = useState("");
-  const [place, setPlace] = useState();
+  const [contact, setContact] = useState("");
+  const [place, setPlace] = useState<any>();
 
   const ref = collection(db, "items");
 
@@ -48,19 +49,19 @@ function FoundItem({ user }: Props) {
     setPlace(position.latlng);
   };
 
-  const Submit = (e: any) => {
+  const Submit = async (e: any) => {
     e.preventDefault();
     if (!place) {
       alert("Choose a Location");
     } else {
-      /*const docRef = addDoc(ref, {
-    nameOfObject: nameOfObject,
-    place: "A location",
-    time: serverTimestamp(),
-    questions: {},
-    messages: {},
-    contactInfo: "Contact Info of that person who found it.",
-  });*/
+      const docRef = await addDoc(ref, {
+        nameOfObject: nameOfObject,
+        place: place,
+        time: serverTimestamp(),
+        questions: {},
+        messages: {},
+        contactInfo: contact,
+      });
     }
   };
 
@@ -79,6 +80,17 @@ function FoundItem({ user }: Props) {
             type="text"
             value={nameOfObject}
             onChange={(e) => setNameOfObject(e.currentTarget.value)}
+            required
+          />
+        </div>
+        <div className="ml-4">
+          <label className="font-extrabold text-lg  md:text-lg lg:text-xl text-black">
+            Founder Contact:
+          </label>
+          <input
+            type="text"
+            value={contact}
+            onChange={(e) => setContact(e.currentTarget.value)}
             required
           />
         </div>

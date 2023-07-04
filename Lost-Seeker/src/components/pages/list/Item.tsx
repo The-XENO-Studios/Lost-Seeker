@@ -13,6 +13,14 @@ const Item = ({ data }: Props) => {
     console.log("");
   }
 
+  const time = new Date(
+    data.time?.seconds * 1000 + data.time?.nanoseconds / 1000000
+  );
+
+  const year = time?.getFullYear();
+  const month = time?.getMonth();
+  const date = time?.getDate();
+
   return (
     <div
       ref={ref}
@@ -34,7 +42,7 @@ const Item = ({ data }: Props) => {
         </div>
         <div className="text-lightGray font-bold text-center flex items-center mt-3 gap-1">
           <BsCalendar size={20} />
-          {data.time}
+          {`${month}/${date}/${year}`}
         </div>
       </div>
     </div>
