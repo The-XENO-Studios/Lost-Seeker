@@ -44,7 +44,7 @@ function ListOfItems() {
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[100vw] justify-center">
         {items.map((item: any) => {
-          return <Item data={item} />;
+          return <Item data={item} key={item.id} />;
         })}
       </div>
     </div>

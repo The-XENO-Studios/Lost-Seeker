@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import NavBar from "../../shared/NavBar";
 import { useRef, useState } from "react";
 import { db } from "../../../App";
@@ -25,15 +25,15 @@ interface Props {
 }
 
 function FoundItem({ user }: Props) {
-  if (!user) {
-    return <Navigate to="/register" />;
-  }
-
   const [nameOfObject, setNameOfObject] = useState("");
-  const [contact, setContact] = useState("");
+  const [description, setDescription] = useState("");
   const [place, setPlace] = useState<any>();
   const [mapPos, setMapPos] = useState<any>();
-  const [placeName, setPlaceName] = useState<any>();
+  const [placeName, setPlaceName] = useState<any>("");
+  const [numberContact, setNumberContact] = useState("");
+  const [emailContact, setEmailContact] = useState("");
+
+  const navigate = useNavigate();
 
   const [contactType, setContactType] = useState<"email" | "phone">("email");
 
@@ -64,19 +64,24 @@ function FoundItem({ user }: Props) {
     if (!place) {
       alert("Choose a Location");
     } else {
-      const docRef = await addDoc(ref, {
+      await addDoc(ref, {
         nameOfObject: nameOfObject,
+        description: description,
         place: new GeoPoint(place[0], place[1]),
         placeName: placeName,
         time: serverTimestamp(),
         questions: {},
         messages: {},
-        contactInfo: contact,
+        contactInfo: contactType === "email" ? emailContact : numberContact,
       }).then(() => {
-        return <Navigate to="/list" />;
+        navigate("/list");
       });
     }
   };
+
+  if (!user) {
+    return <Navigate to="/register" />;
+  }
 
   return (
     <div className="flex flex-col  w-screen overflow-x-hidden h-screen relative">
@@ -101,6 +106,8 @@ function FoundItem({ user }: Props) {
               id="found_item"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Enter the type of item you found"
+              value={nameOfObject}
+              onChange={(e) => setNameOfObject(e.currentTarget.value)}
               required
             />
           </div>
@@ -116,6 +123,8 @@ function FoundItem({ user }: Props) {
               rows={4}
               className="block p-2.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none"
               placeholder="Enter a short description about where and what you found"
+              value={description}
+              onChange={(e) => setDescription(e.currentTarget.value)}
             ></textarea>
           </div>
           <div>
@@ -171,6 +180,8 @@ function FoundItem({ user }: Props) {
                 readOnly={contactType === "phone"}
                 type="email"
                 id="email"
+                value={emailContact}
+                onChange={(e) => setEmailContact(e.currentTarget.value)}
                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
                   contactType === "phone" && "cursor-not-allowed"
                 }`}
@@ -183,6 +194,8 @@ function FoundItem({ user }: Props) {
                 readOnly={contactType === "email"}
                 type="tel"
                 id="phone"
+                value={numberContact}
+                onChange={(e) => setNumberContact(e.currentTarget.value)}
                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
                   contactType === "email" && "cursor-not-allowed"
                 }`}
@@ -202,7 +215,9 @@ function FoundItem({ user }: Props) {
               type="text"
               id="item_address"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Enter the adress the item was found."
+              placeholder="Enter the adress where the item was found."
+              value={placeName}
+              onChange={(e) => setPlaceName(e.currentTarget.value)}
               required
             />
           </div>
@@ -227,7 +242,10 @@ function FoundItem({ user }: Props) {
             </button>
           </div>
 
-          <button className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black">
+          <button
+            className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black"
+            onClick={Submit}
+          >
             Submit Report
           </button>
         </form>

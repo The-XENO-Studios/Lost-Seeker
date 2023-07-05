@@ -4,9 +4,10 @@ import { FaMapLocationDot } from "react-icons/fa6";
 
 interface Props {
   data: any;
+  key: any;
 }
 
-const Item = ({ data }: Props) => {
+const Item = ({ data, key }: Props) => {
   const [ref, inView] = useInView();
 
   function QuizPage() {
@@ -25,7 +26,7 @@ const Item = ({ data }: Props) => {
     <div
       ref={ref}
       onClick={QuizPage}
-      key={data.id}
+      key={key}
       className={`w-64 text-black h-80 rounded-lg shadow-xl drop-shadow bg-white Item flex flex-col items-center justify-between ${
         inView
           ? "bg-opacity-100 blur-0 translate-x-0"
