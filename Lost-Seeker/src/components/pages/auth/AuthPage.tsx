@@ -1,20 +1,14 @@
-import { Link, useLocation, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Form from "./components/Form.tsx";
-import Card from "./components/Card.tsx";
-type pageType = "login" | "register";
-interface Props {
-  user: any;
-}
-function LoginPage({ user }: Props) {
-  const [page, setPage] = useState<pageType>("login");
-  const location: any = useLocation().pathname.replace("/", "");
+import { Link, useLocation, Navigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import Form from "./components/Form.tsx"
+import Card from "./components/Card.tsx"
+type pageType = "login" | "register"
+function LoginPage() {
+  const [page, setPage] = useState<pageType>("login")
+  const location: any = useLocation().pathname.replace("/", "")
   useEffect(() => {
-    setPage(location);
-  }, [location]);
-  if (user) {
-    return <Navigate to="/list" />;
-  }
+    setPage(location)
+  }, [location])
   return (
     <div className="md:h-full lg:mt-10 xl:mt-16">
       <div className="md:flex md:h-full max-w-screen-lg mx-auto max-h-[50rem] md:bg-white md:rounded-2xl md:drop-shadow-2xl">
@@ -44,6 +38,6 @@ function LoginPage({ user }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
-export default LoginPage;
+export default LoginPage
