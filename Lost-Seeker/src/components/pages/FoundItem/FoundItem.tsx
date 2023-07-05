@@ -19,7 +19,7 @@ import "leaflet/dist/leaflet.css";
 import "./Leaflet.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiSolidLocationPlus } from "react-icons/bi";
-import Quiz from "./Quiz";
+import Quiz from "./Quiz/Quiz";
 
 import { LeafletMouseEvent } from "leaflet";
 import AddressInput from "./components/AddressInput";
@@ -35,6 +35,7 @@ interface Props {
 
 function FoundItem({ user }: Props) {
   const [mapPos, setMapPos] = useState<any>();
+
 
   const [formData, setFormData] = useState({
     objectType: "",
@@ -75,7 +76,7 @@ function FoundItem({ user }: Props) {
         place: new GeoPoint(formData.place[0], formData.place[1]),
         placeName: formData.addressPlace,
         time: serverTimestamp(),
-        questions: {},
+        questions: question,
         messages: {},
         contactInfo:
           formData.contactType === "email"
@@ -90,6 +91,10 @@ function FoundItem({ user }: Props) {
   if (!user) {
     return <Navigate to="/register" />;
   }
+
+  const GetQuestionData = (data: any) => {
+    setQuestion(data);
+  };
 
   return (
     <div className="flex flex-col  w-screen overflow-x-hidden h-screen relative">
@@ -147,7 +152,7 @@ function FoundItem({ user }: Props) {
             }}
           />
 
-          <Quiz />
+          <Quiz PassData={GetQuestionData} />
 
           <button className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black">
             Submit Report
