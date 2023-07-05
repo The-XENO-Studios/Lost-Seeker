@@ -21,60 +21,67 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiSolidLocationPlus } from "react-icons/bi";
 import Quiz from "./Quiz/Quiz";
 
+import { LeafletMouseEvent } from "leaflet";
+import AddressInput from "./components/AddressInput";
+import ContactInput from "./components/ContactInput";
+import DescriptionInput from "./components/DescriptionInput";
+import MapInputDialog from "./components/MapInputDialog";
+import ObjectTypeInput from "./components/ObjectTypeInput";
+import PinAddressButton from "./components/PinAddressButton";
+
 interface Props {
   user: any;
 }
 
 function FoundItem({ user }: Props) {
-  const [nameOfObject, setNameOfObject] = useState("");
-  const [description, setDescription] = useState("");
-  const [place, setPlace] = useState<any>();
   const [mapPos, setMapPos] = useState<any>();
-  const [placeName, setPlaceName] = useState<any>("");
-  const [numberContact, setNumberContact] = useState("");
-  const [emailContact, setEmailContact] = useState("");
-  const [question, setQuestion] = useState(null);
+
+
+  const [formData, setFormData] = useState({
+    objectType: "",
+    description: "",
+    place: [-9999999, -9999999],
+    addressPlace: "",
+    contactType: "email",
+    phoneContact: "",
+    emailContact: "",
+  });
 
   const navigate = useNavigate();
-
-  const [contactType, setContactType] = useState<"email" | "phone">("email");
 
   const ref = collection(db, "items");
 
   const [onTop, setOnTop] = useState(false);
 
   const mapRef = useRef<any>();
-  const mRef = useRef<any>();
-
-  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
-    if (e.currentTarget.scrollTop === 0) {
-      setOnTop(true);
-    } else {
-      setOnTop(false);
-    }
-  };
 
   const [mapOn, setMap] = useState(false);
 
-  const handleMapClick = (position: any) => {
+  const handleMapClick = (position: LeafletMouseEvent) => {
     setMapPos(position.latlng);
-    setPlace([position.latlng.lat, position.latlng.lng]);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      place: [position.latlng.lat, position.latlng.lng],
+    }));
   };
 
   const Submit = async (e: any) => {
-    e.preventDefault();
-    if (!place) {
+    if (formData.place[0] === -9999999 && formData.place[1] === -9999999) {
       alert("Choose a Location");
     } else {
       await addDoc(ref, {
-        nameOfObject: nameOfObject,
-        description: description,
-        place: new GeoPoint(place[0], place[1]),
-        placeName: placeName,
+        nameOfObject: formData.objectType,
+        description: formData.description,
+        place: new GeoPoint(formData.place[0], formData.place[1]),
+        placeName: formData.addressPlace,
         time: serverTimestamp(),
         questions: question,
         messages: {},
-        contactInfo: contactType === "email" ? emailContact : numberContact,
+        contactInfo:
+          formData.contactType === "email"
+            ? formData.emailContact
+            : formData.phoneContact,
       }).then(() => {
         navigate("/list");
       });
@@ -99,200 +106,67 @@ function FoundItem({ user }: Props) {
           back! Just fill out this form and you are done.
         </p>
 
-        <form className="lg:w-3/5 xl:w-2/5 mt-12 flex flex-col gap-4  pb-8">
-          <div>
-            <label
-              htmlFor="found_item"
-              className="block mb-2 text-base font-medium text-gray-900 "
-            >
-              Found item
-            </label>
-            <input
-              type="text"
-              id="found_item"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Enter the type of item you found"
-              value={nameOfObject}
-              onChange={(e) => setNameOfObject(e.currentTarget.value)}
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="description"
-              className="block mb-2 text-base font-medium text-gray-900 "
-            >
-              Short description
-            </label>
-            <textarea
-              id="description"
-              rows={4}
-              className="block p-2.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none"
-              placeholder="Enter a short description about where and what you found"
-              value={description}
-              onChange={(e) => setDescription(e.currentTarget.value)}
-            ></textarea>
-          </div>
-          <div>
-            <label
-              htmlFor="description"
-              className="block mb-2 text-base font-medium text-gray-900 "
-            >
-              Enter a way to reach you
-            </label>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center">
-                <input
-                  onChange={(e) =>
-                    setContactType(e.target.value as "email" | "phone")
-                  }
-                  id="email-radio-1"
-                  type="radio"
-                  checked={contactType === "email"}
-                  name="email-radio"
-                  value="email"
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  htmlFor="email-radio-1"
-                  className="ml-2 text-base font-medium text-gray-900 dark:text-gray-300"
-                >
-                  Email
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  onChange={(e) =>
-                    setContactType(e.target.value as "email" | "phone")
-                  }
-                  id="email-radio-2"
-                  type="radio"
-                  checked={contactType === "phone"}
-                  name="email-radio"
-                  value="phone"
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  htmlFor="email-radio-2"
-                  className="ml-2 text-base font-medium text-gray-900 dark:text-gray-300"
-                >
-                  Phone
-                </label>
-              </div>
-            </div>
-            <div className="flex flex-row items-center gap-2 mt-2">
-              <input
-                disabled={contactType === "phone"}
-                readOnly={contactType === "phone"}
-                type="email"
-                id="email"
-                value={emailContact}
-                onChange={(e) => setEmailContact(e.currentTarget.value)}
-                className={`bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
-                  contactType === "phone" && "cursor-not-allowed"
-                }`}
-                placeholder="Enter your email."
-                required
-              />
-              <p className="text-center">or</p>
-              <input
-                disabled={contactType === "email"}
-                readOnly={contactType === "email"}
-                type="tel"
-                id="phone"
-                value={numberContact}
-                onChange={(e) => setNumberContact(e.currentTarget.value)}
-                className={`bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
-                  contactType === "email" && "cursor-not-allowed"
-                }`}
-                placeholder="Enter your phone number."
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="item_address"
-              className="block mb-2 text-base font-medium text-gray-900 "
-            >
-              Address item was found
-            </label>
-            <input
-              type="text"
-              id="item_address"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Enter the adress where the item was found."
-              value={placeName}
-              onChange={(e) => setPlaceName(e.currentTarget.value)}
-              required
-            />
-          </div>
+        <form
+          onSubmit={Submit}
+          className="lg:w-3/5 xl:w-2/5 mt-12 flex flex-col gap-4  pb-8"
+        >
+          <ObjectTypeInput
+            onChange={(value) => {
+              setFormData((prevData) => ({ ...prevData, objectType: value }));
+            }}
+            value={formData.objectType}
+          />
+          <DescriptionInput
+            onChange={(value) => {
+              setFormData((prevData) => ({ ...prevData, description: value }));
+            }}
+            value={formData.description}
+          />
+          <ContactInput
+            onChangeType={(value) => {
+              setFormData((prevData) => ({ ...prevData, contactType: value }));
+            }}
+            onChangeEmail={(value) => {
+              setFormData((prevData) => ({ ...prevData, emailContact: value }));
+            }}
+            onChangePhone={(value) => {
+              setFormData((prevData) => ({ ...prevData, phoneContact: value }));
+            }}
+            valueType={formData.contactType}
+            valueEmail={formData.emailContact}
+            valuePhone={formData.phoneContact}
+          />
+          <AddressInput
+            onChange={(value) => {
+              setFormData((prevData) => ({ ...prevData, addressPlace: value }));
+            }}
+            value={formData.addressPlace}
+          />
 
-          <div>
-            <label
-              htmlFor="pin_address"
-              className="block mb-2 text-base font-medium text-gray-900 "
-            >
-              Pin found items address on map
-            </label>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
+          <PinAddressButton
+            onClick={(e) => {
+              e.preventDefault();
 
-                mapRef.current.showModal();
-                setMap(true);
-              }}
-              className="bg-white text-text_primary border-2 border-text_primary rounded-lg w-32 flex items-center justify-center py-2 text-base font-bold transition-transform hover:scale-95"
-            >
-              Open Map
-            </button>
-          </div>
+              mapRef.current.showModal();
+              setMap(true);
+            }}
+          />
 
           <Quiz PassData={GetQuestionData} />
 
-          <button
-            className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black"
-            onClick={Submit}
-          >
+          <button className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black">
             Submit Report
           </button>
         </form>
       </div>
 
-      <dialog ref={mapRef} className="bg-transparent">
-        <div
-          className="absolute right-[20px] top-[20px] z-[401] cursor-pointer"
-          onClick={() => {
-            mapRef.current.close();
-            setMap(false);
-          }}
-        >
-          <AiOutlineCloseCircle size={50} />
-        </div>
-        <div
-          className="absolute right-[30px] bottom-[50px] z-[401] cursor-pointer"
-          onClick={() => {
-            mRef.current.locate();
-          }}
-        >
-          <BiSolidLocationPlus size={50} />
-        </div>
-        {mapOn && (
-          <MapContainer
-            center={[51.505, -0.09]}
-            zoom={13}
-            scrollWheelZoom={true}
-            ref={mRef}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <LocationMarker onMapClick={handleMapClick} />
-            {mapPos && <Marker position={mapPos}></Marker>}
-          </MapContainer>
-        )}
-      </dialog>
+      <MapInputDialog
+        onMapClick={(position) => handleMapClick(position)}
+        setMap={(value) => setMap(value)}
+        mapRef={mapRef}
+        mapPos={mapPos}
+        mapOn={mapOn}
+      />
     </div>
   );
 }
