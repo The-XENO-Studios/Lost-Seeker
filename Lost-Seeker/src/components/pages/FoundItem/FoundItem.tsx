@@ -19,6 +19,7 @@ import "leaflet/dist/leaflet.css";
 import "./Leaflet.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiSolidLocationPlus } from "react-icons/bi";
+import Quiz from "./Quiz";
 
 interface Props {
   user: any;
@@ -241,6 +242,8 @@ function FoundItem({ user }: Props) {
               Open Map
             </button>
           </div>
+
+          <Quiz />
 
           <button
             className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black"
