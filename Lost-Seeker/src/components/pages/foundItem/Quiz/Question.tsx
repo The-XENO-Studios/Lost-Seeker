@@ -40,11 +40,12 @@ const Question = ({ passDataToParent, index }: PropsQuestion) => {
   }, [question]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <input
         type="text"
         value={question.QuestionName}
-        placeholder="Question"
+        placeholder="Enter a question."
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
         onChange={(e) => {
           setQuestion({
             QuestionName: e.currentTarget.value,
@@ -52,16 +53,17 @@ const Question = ({ passDataToParent, index }: PropsQuestion) => {
           });
         }}
       />
-      <div>
+      <div className="h-[1px] w-full bg-lightGray "></div>
+      <div className="flex flex-col gap-2 pl-4 ">
         {question.Options.map((_value, index) => {
           return <Option data={handleOption} index={index} key={index} />;
         })}
       </div>
       <button
-        className="bg-black text-white rounded-lg w-32 flex items-center justify-center py-2 text-base font-bold transition-transform hover:scale-95 border-2 border-black"
+        className="ml-4 bg-white text-text_primary border-2 border-text_primary rounded-lg w-full flex items-center justify-center py-2 text-base font-bold transition-transform hover:scale-95"
         onClick={AddOption}
       >
-        Add option
+        +
       </button>
     </div>
   );
