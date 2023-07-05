@@ -34,26 +34,19 @@ interface Props {
 }
 
 function FoundItem({ user }: Props) {
-  const [nameOfObject, setNameOfObject] = useState("");
-  const [description, setDescription] = useState("");
-  const [place, setPlace] = useState<any>();
   const [mapPos, setMapPos] = useState<any>();
-  const [placeName, setPlaceName] = useState<any>("");
-  const [numberContact, setNumberContact] = useState("");
-  const [emailContact, setEmailContact] = useState("");
 
   const [formData, setFormData] = useState({
     objectType: "",
     description: "",
-    place: [0, 0],
+    place: [-9999999, -9999999],
     addressPlace: "",
+    contactType: "email",
     phoneContact: "",
     emailContact: "",
   });
 
   const navigate = useNavigate();
-
-  const [contactType, setContactType] = useState<"email" | "phone">("email");
 
   const ref = collection(db, "items");
 
@@ -65,23 +58,29 @@ function FoundItem({ user }: Props) {
 
   const handleMapClick = (position: LeafletMouseEvent) => {
     setMapPos(position.latlng);
-    setPlace([position.latlng.lat, position.latlng.lng]);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      place: [position.latlng.lat, position.latlng.lng],
+    }));
   };
 
   const Submit = async (e: any) => {
-    e.preventDefault();
-    if (!place) {
+    if (formData.place[0] === -9999999 && formData.place[1] === -9999999) {
       alert("Choose a Location");
     } else {
       await addDoc(ref, {
-        nameOfObject: nameOfObject,
-        description: description,
-        place: new GeoPoint(place[0], place[1]),
-        placeName: placeName,
+        nameOfObject: formData.objectType,
+        description: formData.description,
+        place: new GeoPoint(formData.place[0], formData.place[1]),
+        placeName: formData.addressPlace,
         time: serverTimestamp(),
         questions: {},
         messages: {},
-        contactInfo: contactType === "email" ? emailContact : numberContact,
+        contactInfo:
+          formData.contactType === "email"
+            ? formData.emailContact
+            : formData.phoneContact,
       }).then(() => {
         navigate("/list");
       });
@@ -102,7 +101,10 @@ function FoundItem({ user }: Props) {
           back! Just fill out this form and you are done.
         </p>
 
-        <form className="lg:w-3/5 xl:w-2/5 mt-12 flex flex-col gap-4  pb-8">
+        <form
+          onSubmit={Submit}
+          className="lg:w-3/5 xl:w-2/5 mt-12 flex flex-col gap-4  pb-8"
+        >
           <ObjectTypeInput
             onChange={(value) => {
               setFormData((prevData) => ({ ...prevData, objectType: value }));
@@ -116,12 +118,16 @@ function FoundItem({ user }: Props) {
             value={formData.description}
           />
           <ContactInput
+            onChangeType={(value) => {
+              setFormData((prevData) => ({ ...prevData, contactType: value }));
+            }}
             onChangeEmail={(value) => {
               setFormData((prevData) => ({ ...prevData, emailContact: value }));
             }}
             onChangePhone={(value) => {
               setFormData((prevData) => ({ ...prevData, phoneContact: value }));
             }}
+            valueType={formData.contactType}
             valueEmail={formData.emailContact}
             valuePhone={formData.phoneContact}
           />
@@ -143,10 +149,7 @@ function FoundItem({ user }: Props) {
 
           <Quiz />
 
-          <button
-            className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black"
-            onClick={Submit}
-          >
+          <button className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black">
             Submit Report
           </button>
         </form>
