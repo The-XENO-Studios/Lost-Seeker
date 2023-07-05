@@ -1,5 +1,5 @@
 import { LatLngExpression, LeafletMouseEvent } from "leaflet";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiSolidLocationPlus } from "react-icons/bi";
 import {

@@ -8,17 +8,8 @@ import {
   collection,
   serverTimestamp,
 } from "firebase/firestore";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents,
-} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Leaflet.css";
-import { AiOutlineCloseCircle } from "react-icons/ai";
-import { BiSolidLocationPlus } from "react-icons/bi";
 import Quiz from "./Quiz/Quiz";
 
 import { LeafletMouseEvent } from "leaflet";
@@ -35,7 +26,7 @@ interface Props {
 
 function FoundItem({ user }: Props) {
   const [mapPos, setMapPos] = useState<any>();
-
+  const [question, setQuestion] = useState(null);
 
   const [formData, setFormData] = useState({
     objectType: "",
@@ -67,6 +58,7 @@ function FoundItem({ user }: Props) {
   };
 
   const Submit = async (e: any) => {
+    e.preventDefault();
     if (formData.place[0] === -9999999 && formData.place[1] === -9999999) {
       alert("Choose a Location");
     } else {
@@ -168,32 +160,6 @@ function FoundItem({ user }: Props) {
         mapOn={mapOn}
       />
     </div>
-  );
-}
-
-interface MapProps {
-  onMapClick: any;
-}
-
-function LocationMarker({ onMapClick }: MapProps) {
-  const [position, setPosition] = useState(null);
-
-  const map = useMapEvents({
-    click(e) {
-      onMapClick(e);
-    },
-    locationfound(e: any) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
-  });
-
-  return position === null ? null : (
-    <>
-      <Marker position={position}>
-        <Popup>You are here</Popup>
-      </Marker>
-    </>
   );
 }
 
