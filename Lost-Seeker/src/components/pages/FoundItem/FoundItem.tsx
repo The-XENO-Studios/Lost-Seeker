@@ -24,14 +24,24 @@ interface Props {
   user: any;
 }
 
+interface IFormData {
+  objectType: string;
+  description: string;
+  place: [number, number] | null;
+  addressPlace: string;
+  contactType: "email" | "phone";
+  phoneContact: string;
+  emailContact: string;
+}
+
 function FoundItem({ user }: Props) {
   const [mapPos, setMapPos] = useState<any>();
   const [question, setQuestion] = useState(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<IFormData>({
     objectType: "",
     description: "",
-    place: [-9999999, -9999999],
+    place: null,
     addressPlace: "",
     contactType: "email",
     phoneContact: "",
@@ -59,7 +69,7 @@ function FoundItem({ user }: Props) {
 
   const Submit = async (e: any) => {
     e.preventDefault();
-    if (formData.place[0] === -9999999 && formData.place[1] === -9999999) {
+    if (!formData.place) {
       alert("Choose a Location");
     } else {
       await addDoc(ref, {
@@ -116,7 +126,10 @@ function FoundItem({ user }: Props) {
           />
           <ContactInput
             onChangeType={(value) => {
-              setFormData((prevData) => ({ ...prevData, contactType: value }));
+              setFormData((prevData) => ({
+                ...prevData,
+                contactType: value as "email" | "phone",
+              }));
             }}
             onChangeEmail={(value) => {
               setFormData((prevData) => ({ ...prevData, emailContact: value }));
