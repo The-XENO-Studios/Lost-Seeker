@@ -13,7 +13,7 @@ import { db } from "../../../App";
 function ListOfItems() {
   const [finalItem, setFinalItem] = useState<any>();
   const [items, setItems] = useState<any>([]);
-  const [onTop, setOnTop] = useState(false);
+  const [onTop, setOnTop] = useState(true);
 
   const ref = collection(db, "items");
   const q = query(ref, orderBy("time"), limit(10));

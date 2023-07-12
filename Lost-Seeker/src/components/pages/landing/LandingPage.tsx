@@ -7,7 +7,7 @@ import Footer from "../../shared/Footer";
 import TextCard from "./components/TextCard";
 
 function LandingPage() {
-  const [onTop, setOnTop] = useState(false);
+  const [onTop, setOnTop] = useState(true);
 
   const { ref, inView } = useInView({
     /* Optional options */
