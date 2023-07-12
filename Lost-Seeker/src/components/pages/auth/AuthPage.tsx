@@ -5,7 +5,6 @@ import Card from "./components/Card.tsx"
 type pageType = "login" | "register"
 function LoginPage() {
   const [page, setPage] = useState<pageType>("login")
-  const [time, setTime] = useState(Date.now())
   const [cardId, setCardId] = useState(0)
   const location: any = useLocation().pathname.replace("/", "")
   let id = 0
