@@ -16,7 +16,7 @@ function LoginPage() {
     const interval = setInterval(() => {
       id = id + 1 > 2 ? 0 : id + 1
       updateCardId()
-    }, 1000)
+    }, 10000)
     return () => {
       clearInterval(interval)
     }
