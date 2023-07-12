@@ -1,11 +1,26 @@
-import { Link, useLocation, Navigate } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import Form from "./components/Form.tsx"
 import Card from "./components/Card.tsx"
 type pageType = "login" | "register"
 function LoginPage() {
   const [page, setPage] = useState<pageType>("login")
+  const [time, setTime] = useState(Date.now())
+  const [cardId, setCardId] = useState(0)
   const location: any = useLocation().pathname.replace("/", "")
+  let id = 0
+  const updateCardId = () => {
+    setCardId(id)
+  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      id = id + 1 > 2 ? 0 : id + 1
+      updateCardId()
+    }, 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
   useEffect(() => {
     setPage(location)
   }, [location])
@@ -25,11 +40,26 @@ function LoginPage() {
             </p>
           </div>
           <div className="hidden md:flex md:flex-col md:items-center">
-            <Card />
-            <div className="flex gap-x-2 mb-14 mt-5">
-              <div className="w-2 rounded-full bg-white h-2 hover:scale-125"></div>
-              <div className="w-2 rounded-full bg-lightBlue h-2 hover:scale-125"></div>
-              <div className="w-2 rounded-full bg-lightBlue h-2 hover:scale-125"></div>
+            <Card id={cardId} />
+            <div className="flex gap-x-2 mb-14 mt-5 transition-all">
+              <div
+                onClick={() => setCardId(0)}
+                className={`w-2 rounded-full h-2 hover:scale-125 ${
+                  cardId === 0 ? "bg-white" : "bg-lightBlue"
+                }`}
+              ></div>
+              <div
+                onClick={() => setCardId(1)}
+                className={`w-2 rounded-full h-2 hover:scale-125 ${
+                  cardId === 1 ? "bg-white" : "bg-lightBlue"
+                }`}
+              ></div>
+              <div
+                onClick={() => setCardId(2)}
+                className={`w-2 rounded-full h-2 hover:scale-125 ${
+                  cardId === 2 ? "bg-white" : "bg-lightBlue"
+                }`}
+              ></div>
             </div>
           </div>
         </div>
