@@ -1,10 +1,11 @@
-function Card() {
+import cardsInfo from "./cardsInfo.ts"
+interface props {
+  id: number
+}
+function Card({ id }: props) {
   return (
     <div className="bg-darkBlue p-3 mx-5 text-sm rounded-lg text-lightBlue max-w-md">
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum
-        voluptate, omnis, amet nam ducimus,
-      </p>
+      <p>{cardsInfo[id].message}</p>
       <div className="flex items-center space-x-4 mt-5">
         <div className="relative w-10 h-10 overflow-hidden bg-lightBlue rounded-full">
           <svg
@@ -21,8 +22,8 @@ function Card() {
           </svg>
         </div>
         <div className="font-medium dark:text-white">
-          <div>Jese Leos</div>
-          <div className="text-sm text-lightBlue">August 2014</div>
+          <div>{cardsInfo[id].name}</div>
+          <div className="text-sm text-lightBlue">{`${cardsInfo[id].date.month} ${cardsInfo[id].date.year}`}</div>
         </div>
       </div>
     </div>
