@@ -5,13 +5,14 @@ import { FaMapLocationDot } from "react-icons/fa6";
 interface Props {
   data: any;
   key: any;
+  examData: (data: any) => void;
 }
 
-const Item = ({ data, key }: Props) => {
+const Item = ({ data, key, examData }: Props) => {
   const [ref, inView] = useInView();
 
   function QuizPage() {
-    console.log("");
+    examData(data.questions);
   }
 
   const time = new Date(
