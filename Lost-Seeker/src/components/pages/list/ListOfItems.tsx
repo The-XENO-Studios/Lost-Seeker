@@ -40,7 +40,11 @@ function ListOfItems() {
       setFinalItem(items[items.length - 1]);
     });
 
-    return () => unsubscribe(); // Cleanup the listener when the component unmounts
+    return () => {
+      unsubscribe();
+      setFinalItem(null);
+      setItems([]);
+    }; // Cleanup the listener when the component unmounts
   }, []);
 
   const [examData, setExamData] = useState<any>([]);
