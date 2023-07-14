@@ -28,7 +28,7 @@ const Item = ({ data, key, examData }: Props) => {
       ref={ref}
       onClick={QuizPage}
       key={key}
-      className={`w-64 text-black h-80 rounded-lg shadow-xl drop-shadow bg-white Item flex flex-col items-center justify-between ${
+      className={`w-64 text-black h-80 rounded-lg shadow-lg bg-white Item flex flex-col items-center justify-between ${
         inView
           ? "bg-opacity-100 blur-0 translate-x-0"
           : "opacity-0 blur-[5px] translate-x-[-100%]"
