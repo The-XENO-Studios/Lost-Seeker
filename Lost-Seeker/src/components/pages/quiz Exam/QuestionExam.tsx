@@ -1,28 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 interface Props {
   QuestionData: any;
   index: number;
+  passIsAnswerWrong: (i: number, bool: boolean) => void;
 }
 
-const QuestionExam = ({ QuestionData }: Props) => {
+const QuestionExam = ({ QuestionData, index, passIsAnswerWrong }: Props) => {
   const [optionsArray, setOptionsArray] = useState<boolean[]>([]);
 
-  const [isAnswerWrong, setIsAnswerWrong] = useState(false);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     setOptionsArray(Array(QuestionData.Options.length).fill(false));
   }, [QuestionData]);
 
   const handleCorrectDataPass = (index: number, bool: boolean) => {
-    const options = optionsArray;
-    options[index] = bool;
-    setOptionsArray(options);
+    setOptionsArray((prevOptions) => {
+      const newOptions = [...prevOptions];
+      newOptions[index] = bool;
+      return newOptions;
+    });
   };
 
   useEffect(() => {
-    console.log(isAnswerWrong);
-  }, [isAnswerWrong]);
+    passIsAnswerWrong(index, optionsArray.includes(false));
+  }, [optionsArray, index]);
 
   return (
     <div>
@@ -38,13 +39,6 @@ const QuestionExam = ({ QuestionData }: Props) => {
           );
         })}
       </div>
-      <button
-        onClick={() => {
-          setIsAnswerWrong(optionsArray.includes(false));
-        }}
-      >
-        Click
-      </button>
     </div>
   );
 };
@@ -63,13 +57,13 @@ const Option = ({ OptionData, index, passIsCorrectData }: OptionProps) => {
   useEffect(() => {
     const isCorrect = checked === OptionData.isCorrect;
     passIsCorrectData(index, isCorrect);
-  }, [checked, OptionData.isCorrect, index, passIsCorrectData]);
+  }, [checked, index, OptionData.isCorrect]);
 
   return (
     <div
       className={`w-16 h-10 ${checked ? "bg-blue" : "bg-transparent"}`}
       onClick={() => {
-        checked ? setChecked(false) : setChecked(true);
+        setChecked((prevChecked) => !prevChecked);
       }}
     >
       {OptionData.value}
