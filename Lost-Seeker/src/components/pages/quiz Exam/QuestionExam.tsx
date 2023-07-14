@@ -26,9 +26,9 @@ const QuestionExam = ({ QuestionData, index, passIsAnswerWrong }: Props) => {
   }, [optionsArray, index]);
 
   return (
-    <div>
-      <div>{QuestionData.QuestionName}</div>
-      <div className="flex gap-1 flex-col">
+    <div className="">
+      <div className="text-2xl font-bold py-2">{QuestionData.QuestionName}</div>
+      <div className="flex gap-1 flex-col pl-2">
         {QuestionData.Options.map((e: any, i: number) => {
           return (
             <Option
@@ -61,7 +61,9 @@ const Option = ({ OptionData, index, passIsCorrectData }: OptionProps) => {
 
   return (
     <div
-      className={`w-16 h-10 ${checked ? "bg-blue" : "bg-transparent"}`}
+      className={`w-full md:w-1/3 h-fit border-2 border-black rounded-md p-2 cursor-pointer hover:scale-[0.98] transition-transform ${
+        checked ? "bg-lightBlue" : "bg-transparent"
+      }`}
       onClick={() => {
         setChecked((prevChecked) => !prevChecked);
       }}
