@@ -13,6 +13,7 @@ import { db } from "../../../App";
 import Quizexam from "../quiz Exam/Quizexam";
 
 import { AiFillCloseCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function ListOfItems() {
   const [finalItem, setFinalItem] = useState<any>();
@@ -55,12 +56,21 @@ function ListOfItems() {
     dialogRef.current.showModal();
   };
 
+  const navigate = useNavigate();
+
   return (
     <div onScroll={handleScroll}>
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[97vw] justify-center">
         {items.map((item: any) => {
-          return <Item data={item} key={item.id} examData={handleExamData} />;
+          return (
+            <Item
+              data={item}
+              key={item.id}
+              examData={handleExamData}
+              navigate={navigate}
+            />
+          );
         })}
       </div>
       <dialog

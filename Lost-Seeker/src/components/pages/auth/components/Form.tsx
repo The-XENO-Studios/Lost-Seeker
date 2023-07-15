@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,60 +6,62 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-} from "firebase/auth"
-import { auth } from "../../../../App.tsx"
-import { useState } from "react"
+} from "firebase/auth";
+import { auth } from "../../../../App.tsx";
+import { useState } from "react";
 interface props {
-  page: "login" | "register"
+  page: "login" | "register";
 }
 function Form({ page }: props) {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const provider = new GoogleAuthProvider()
-  const navigate = useNavigate()
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
     if (page === "register") {
-      registerUser()
+      registerUser();
     } else {
-      loginUser()
+      loginUser();
     }
-  }
+  };
   const registerUser = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
-      await sendEmailVerification(auth.currentUser!)
-      navigate("/login")
+      await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(auth.currentUser!);
+      navigate("/login");
     } catch (err: any) {
-      setError(formatError(err.code))
+      setError(formatError(err.code));
     }
-  }
+  };
   const loginUser = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password);
       if (!auth?.currentUser?.emailVerified) {
-        signOut(auth)
-        throw { code: "Verify your email" }
+        signOut(auth);
+        throw { code: "Verify your email" };
       }
-      navigate("/list")
+      navigate("/list");
     } catch (err: any) {
-      setError(formatError(err.code))
+      setError(formatError(err.code));
     }
-  }
+  };
   const handleGoogleAuthentication = async () => {
     try {
-      await signInWithPopup(auth, provider)
+      await signInWithPopup(auth, provider).then(() => {
+        navigate("/list");
+      });
     } catch (err: any) {
-      setError(formatError(err.code))
+      setError(formatError(err.code));
     }
-  }
+  };
   const formatError = (errorMessage: string): string => {
-    return errorMessage.replace("auth/", "").replaceAll("-", " ")
-  }
+    return errorMessage.replace("auth/", "").replaceAll("-", " ");
+  };
   return (
     <>
       <form
@@ -171,6 +173,6 @@ function Form({ page }: props) {
         </p>
       </form>
     </>
-  )
+  );
 }
-export default Form
+export default Form;

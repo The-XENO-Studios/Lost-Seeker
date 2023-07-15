@@ -1,18 +1,20 @@
 import { useInView } from "react-intersection-observer";
 import { BsCalendar } from "react-icons/bs";
 import { FaMapLocationDot } from "react-icons/fa6";
+import { auth } from "../../../App";
 
 interface Props {
   data: any;
   key: any;
   examData: (data: any) => void;
+  navigate: any;
 }
 
-const Item = ({ data, key, examData }: Props) => {
+const Item = ({ data, key, examData, navigate }: Props) => {
   const [ref, inView] = useInView();
 
   function QuizPage() {
-    examData(data.questions);
+    auth.currentUser ? examData(data.questions) : navigate("/register");
   }
 
   const time = new Date(
@@ -20,7 +22,7 @@ const Item = ({ data, key, examData }: Props) => {
   );
 
   const year = time?.getFullYear();
-  const month = time?.getMonth();
+  const month = time?.getMonth() + 1;
   const date = time?.getDate();
 
   return (
