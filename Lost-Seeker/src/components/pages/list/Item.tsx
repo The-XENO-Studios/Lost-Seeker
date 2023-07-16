@@ -2,15 +2,25 @@ import { useInView } from "react-intersection-observer";
 import { BsCalendar } from "react-icons/bs";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { auth } from "../../../App";
+import { useEffect } from "react";
 
 interface Props {
   data: any;
   key: any;
   examData: (data: any) => void;
   navigate: any;
+  isFinal?: boolean;
+  callMoreData?: any;
 }
 
-const Item = ({ data, key, examData, navigate }: Props) => {
+const Item = ({
+  data,
+  key,
+  examData,
+  navigate,
+  isFinal,
+  callMoreData,
+}: Props) => {
   const [ref, inView] = useInView();
 
   function QuizPage() {
@@ -24,6 +34,12 @@ const Item = ({ data, key, examData, navigate }: Props) => {
   const year = time?.getFullYear();
   const month = time?.getMonth() + 1;
   const date = time?.getDate();
+
+  useEffect(() => {
+    if (isFinal && inView) {
+      callMoreData();
+    }
+  }, [inView, isFinal]);
 
   return (
     <div

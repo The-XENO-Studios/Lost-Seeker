@@ -6,6 +6,8 @@ import {
   orderBy,
   limit,
   onSnapshot,
+  getDocs,
+  startAfter,
 } from "firebase/firestore";
 import NavBar from "../../shared/NavBar";
 import { db } from "../../../App";
@@ -32,17 +34,16 @@ function ListOfItems() {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(q, (snapShot) => {
+    getDocs(q).then((snapShot) => {
       const updatedItems = snapShot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
       setItems([...items, ...updatedItems]);
-      setFinalItem(items[items.length - 1]);
+      setFinalItem(snapShot.docs[snapShot.docs.length - 1]);
     });
 
     return () => {
-      unsubscribe();
       setFinalItem(null);
       setItems([]);
     }; // Cleanup the listener when the component unmounts
@@ -58,17 +59,36 @@ function ListOfItems() {
 
   const navigate = useNavigate();
 
+  const GetMoreData = () => {
+    const que = query(ref, orderBy("time"), limit(10), startAfter(finalItem));
+    getDocs(que).then((snapShot) => {
+      const updatedItems = snapShot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setItems([...items, ...updatedItems]);
+      setFinalItem(snapShot.docs[snapShot.docs.length - 1]);
+    });
+  };
+
+  const handleMoreDataAdd = () => {
+    GetMoreData();
+  };
+
   return (
     <div onScroll={handleScroll}>
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[97vw] justify-center">
-        {items.map((item: any) => {
+        {items.map((item: any, i: number) => {
+          const isFinal = i === items.length - 1;
           return (
             <Item
               data={item}
               key={item.id}
               examData={handleExamData}
               navigate={navigate}
+              isFinal={isFinal}
+              callMoreData={isFinal ? handleMoreDataAdd : null}
             />
           );
         })}
