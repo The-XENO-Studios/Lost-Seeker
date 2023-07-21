@@ -138,8 +138,7 @@ function ListOfItems() {
     const promises = [];
     for (const b of bounds) {
       var que: Query;
-      const time = Timestamp.fromDate(new Date(filterTime));
-      if (filterName?.trim() != "" && !filterTime) {
+      if (filterName?.trim() != "") {
         que = query(
           ref,
           orderBy("geohash"),
@@ -148,30 +147,7 @@ function ListOfItems() {
           limit(10),
           where("nameOfObject", "==", `${filterName}`)
         );
-      } //If Time But not Name filtered
-      else if (filterName?.trim() == "" && filterTime) {
-        que = query(
-          ref,
-          orderBy("time"),
-          orderBy("geohash"),
-          startAt(b[0]),
-          endAt(b[1]),
-          limit(10),
-          where("time", "<=", time)
-        );
-      } //If both filtered
-      else if (filterName?.trim() != "" && filterTime) {
-        que = query(
-          ref,
-          orderBy("geohash"),
-          startAt(b[0]),
-          endAt(b[1]),
-          limit(10),
-          where("nameOfObject", "==", `${filterName}`),
-          where("time", "<=", time)
-        );
-      } //If none filtered
-      else {
+      } else {
         que = query(
           ref,
           orderBy("geohash"),
@@ -227,8 +203,7 @@ function ListOfItems() {
     const promises = [];
     for (const b of bounds) {
       var que: Query;
-      const time = Timestamp.fromDate(new Date(filterTime));
-      if (filterName?.trim() != "" && !filterTime) {
+      if (filterName?.trim() != "") {
         que = query(
           ref,
           orderBy("geohash"),
@@ -238,31 +213,7 @@ function ListOfItems() {
           where("nameOfObject", "==", `${filterName}`),
           startAfter(finalItem)
         );
-      } //If Time But not Name filtered
-      else if (filterName?.trim() == "" && filterTime) {
-        que = query(
-          ref,
-          orderBy("geohash"),
-          startAt(b[0]),
-          endAt(b[1]),
-          limit(10),
-          where("time", "<=", time),
-          startAfter(finalItem)
-        );
-      } //If both filtered
-      else if (filterName?.trim() != "" && filterTime) {
-        que = query(
-          ref,
-          orderBy("geohash"),
-          startAt(b[0]),
-          endAt(b[1]),
-          limit(10),
-          where("nameOfObject", "==", `${filterName}`),
-          where("time", "<=", time),
-          startAfter(finalItem)
-        );
-      } //If none filtered
-      else {
+      } else {
         que = query(
           ref,
           orderBy("geohash"),
