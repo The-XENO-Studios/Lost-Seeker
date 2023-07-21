@@ -310,10 +310,21 @@ function ListOfItems() {
     });
   };
 
+  //------------Reset Filters--------------
+
+  const ResetFilters = () => {
+    setFilterName("");
+    setFilterTime("");
+    setMapPos(null);
+  };
+
   return (
     <div onScroll={handleScroll}>
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
       <div>
+        <button className="fixed bottom-36" onClick={ResetFilters}>
+          Reset Filters
+        </button>
         <button className="fixed bottom-24" onClick={FilterItems}>
           Filter
         </button>
