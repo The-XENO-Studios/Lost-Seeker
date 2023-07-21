@@ -330,19 +330,19 @@ function ListOfItems() {
         mapOn={mapOn}
       />
       <div className="pt-20 flex flex-col">
-        <div className="py-20 sm:py-10 px-8 md:px-14 lg:px-20">
+        <div className="py-20 sm:py-10 px-2 md:px-4 lg:px-20">
           <div className="h-20 rounded-lg flex flex-row justify-between items-center">
-            <h3 className="text-3xl font-bold hidden lg:block">Found Items</h3>
+            <h3 className="text-3xl font-bold hidden xl:block">Found Items</h3>
             <div className="flex flex-col items-end">
               <div className="flex flex-row flex-wrap md:flex-nowrap items-center gap-1 md:gap-2">
                 <button
-                  className="text-white bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-5 h-10 md:h-12 flex justify-center items-center transition-transform"
+                  className="text-white whitespace-nowrap bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-10 md:h-12 flex justify-center items-center transition-transform"
                   onClick={FilterItems}
                 >
                   Apply Filter
                 </button>
                 <button
-                  className="text-white bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-5 h-10 md:h-12 flex justify-center items-center transition-transform"
+                  className="text-white whitespace-nowrap bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-10 md:h-12 flex justify-center items-center transition-transform"
                   onClick={ResetFilters}
                 >
                   Reset Filters
@@ -361,13 +361,13 @@ function ListOfItems() {
                   type="date"
                   name="Date"
                   id=""
-                  className="text-black bg-gray h-10 md:h-12 rounded-lg flex justify-center items-center px-2 md:px-5 outline-none hover:scale-95 transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
+                  className="text-black bg-gray h-10 md:h-12 rounded-lg flex justify-center items-center px-2 md:px-3 outline-none hover:scale-95 transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
                   value={filterTime}
                   onChange={(e) => setFilterTime(e.currentTarget.value)}
                 />
                 <button
                   disabled={filterTime ? true : false}
-                  className="text-black bg-gray hover:scale-95 font-medium rounded-lg text-md px-2 md:px-5 h-10 md:h-12 flex justify-center items-center transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
+                  className="text-black bg-gray hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-10 md:h-12 flex justify-center items-center transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
                   onClick={(e) => {
                     e.preventDefault();
 
