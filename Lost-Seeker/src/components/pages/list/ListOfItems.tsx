@@ -5,17 +5,26 @@ import {
   query,
   orderBy,
   limit,
-  onSnapshot,
   getDocs,
   startAfter,
+  startAt,
+  endAt,
+  Timestamp,
+  where,
+  Query,
 } from "firebase/firestore";
 import NavBar from "../../shared/NavBar";
 import { db } from "../../../App";
 
 import Quizexam from "../quiz Exam/Quizexam";
 
+import MapInputDialog from "../foundItem/components/MapInputDialog";
+
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+
+import { Geopoint, distanceBetween, geohashQueryBounds } from "geofire-common";
+import { LeafletMouseEvent } from "leaflet";
 
 function ListOfItems() {
   const [finalItem, setFinalItem] = useState<any>();
@@ -60,7 +69,44 @@ function ListOfItems() {
   const navigate = useNavigate();
 
   const GetMoreData = () => {
-    const que = query(ref, orderBy("time"), limit(10), startAfter(finalItem));
+    const time = Timestamp.fromDate(new Date(filterTime));
+    var que: Query;
+    if (mapPos) {
+      getMoreLocationQueryData();
+      return;
+    }
+    if (filterName?.trim() != "" && !filterTime) {
+      que = query(
+        ref,
+        orderBy("time"),
+        limit(10),
+        where("nameOfObject", "==", `${filterName}`),
+        startAfter(finalItem)
+      );
+    } //If Time But not Name filtered
+    else if (filterName?.trim() == "" && filterTime) {
+      que = query(
+        ref,
+        orderBy("time"),
+        limit(10),
+        where("time", "<=", time),
+        startAfter(finalItem)
+      );
+    } //If both filtered
+    else if (filterName?.trim() != "" && filterTime) {
+      que = query(
+        ref,
+        orderBy("time"),
+        limit(10),
+        where("nameOfObject", "==", `${filterName}`),
+        where("time", "<=", time),
+        startAfter(finalItem)
+      );
+    } //If none filtered
+    else {
+      que = query(ref, orderBy("time"), limit(10), startAfter(finalItem));
+    }
+
     getDocs(que).then((snapShot) => {
       const updatedItems = snapShot.docs.map((doc) => ({
         ...doc.data(),
@@ -75,9 +121,285 @@ function ListOfItems() {
     GetMoreData();
   };
 
+  //---------------------------Geo Query-----------------------------
+
+  const [mapPos, setMapPos] = useState<any>();
+  const [mapOn, setMap] = useState(false);
+  const mapRef = useRef<any>();
+
+  const getLocationQueryData = () => {
+    const center: Geopoint = [mapPos.lat, mapPos.lng];
+    const radiusInM = 50 * 1000;
+
+    // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
+    // a separate query for each pair. There can be up to 9 pairs of bounds
+    // depending on overlap, but in most cases there are 4.
+    const bounds = geohashQueryBounds(center, radiusInM);
+    const promises = [];
+    for (const b of bounds) {
+      var que: Query;
+      const time = Timestamp.fromDate(new Date(filterTime));
+      if (filterName?.trim() != "" && !filterTime) {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          where("nameOfObject", "==", `${filterName}`)
+        );
+      } //If Time But not Name filtered
+      else if (filterName?.trim() == "" && filterTime) {
+        que = query(
+          ref,
+          orderBy("time"),
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          where("time", "<=", time)
+        );
+      } //If both filtered
+      else if (filterName?.trim() != "" && filterTime) {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          where("nameOfObject", "==", `${filterName}`),
+          where("time", "<=", time)
+        );
+      } //If none filtered
+      else {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10)
+        );
+      }
+
+      promises.push(getDocs(que));
+    }
+
+    // Collect all the query results together into a single list
+    Promise.all(promises)
+      .then((snapshots) => {
+        const matchingDocs: any[] | PromiseLike<any[]> = [];
+
+        for (const snap of snapshots) {
+          for (const doc of snap.docs) {
+            const lat = doc.get("lat");
+            const lng = doc.get("lng");
+
+            // We have to filter out a few false positives due to GeoHash
+            // accuracy, but most will match
+            const distanceInKm = distanceBetween([lat, lng], center);
+            const distanceInM = distanceInKm * 1000;
+            if (distanceInM <= radiusInM) {
+              matchingDocs.push(doc);
+            }
+          }
+        }
+
+        return matchingDocs;
+      })
+      .then((matchingDocs) => {
+        const updatedItems = matchingDocs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setItems([...updatedItems]);
+        setFinalItem(items[items.length - 1]);
+      });
+  };
+
+  const getMoreLocationQueryData = () => {
+    const center: Geopoint = [mapPos.lat, mapPos.lng];
+    const radiusInM = 50 * 1000;
+
+    // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
+    // a separate query for each pair. There can be up to 9 pairs of bounds
+    // depending on overlap, but in most cases there are 4.
+    const bounds = geohashQueryBounds(center, radiusInM);
+    const promises = [];
+    for (const b of bounds) {
+      var que: Query;
+      const time = Timestamp.fromDate(new Date(filterTime));
+      if (filterName?.trim() != "" && !filterTime) {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          where("nameOfObject", "==", `${filterName}`),
+          startAfter(finalItem)
+        );
+      } //If Time But not Name filtered
+      else if (filterName?.trim() == "" && filterTime) {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          where("time", "<=", time),
+          startAfter(finalItem)
+        );
+      } //If both filtered
+      else if (filterName?.trim() != "" && filterTime) {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          where("nameOfObject", "==", `${filterName}`),
+          where("time", "<=", time),
+          startAfter(finalItem)
+        );
+      } //If none filtered
+      else {
+        que = query(
+          ref,
+          orderBy("geohash"),
+          startAt(b[0]),
+          endAt(b[1]),
+          limit(10),
+          startAfter(finalItem)
+        );
+      }
+
+      promises.push(getDocs(que));
+    }
+
+    // Collect all the query results together into a single list
+    Promise.all(promises)
+      .then((snapshots) => {
+        const matchingDocs: any[] | PromiseLike<any[]> = [];
+
+        for (const snap of snapshots) {
+          for (const doc of snap.docs) {
+            const lat = doc.get("lat");
+            const lng = doc.get("lng");
+
+            // We have to filter out a few false positives due to GeoHash
+            // accuracy, but most will match
+            const distanceInKm = distanceBetween([lat, lng], center);
+            const distanceInM = distanceInKm * 1000;
+            if (distanceInM <= radiusInM) {
+              matchingDocs.push(doc);
+            }
+          }
+        }
+
+        return matchingDocs;
+      })
+      .then((matchingDocs) => {
+        const updatedItems = matchingDocs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setItems([...items, ...updatedItems]);
+        setFinalItem(items[items.length - 1]);
+      });
+  };
+
+  const handleMapClick = (position: LeafletMouseEvent) => {
+    setMapPos(position.latlng);
+    getLocationQueryData;
+  };
+
+  //-------------Filter Data--------------
+
+  const [filterName, setFilterName] = useState<string>("");
+  const [filterTime, setFilterTime] = useState<string>("");
+
+  const FilterItems = () => {
+    const time = Timestamp.fromDate(new Date(filterTime));
+    var que: Query;
+    if (mapPos) {
+      getLocationQueryData();
+      return;
+    }
+    if (filterName?.trim() != "" && !filterTime) {
+      que = query(
+        ref,
+        orderBy("time"),
+        limit(10),
+        where("nameOfObject", "==", `${filterName}`)
+      );
+    } //If Time But not Name filtered
+    else if (filterName?.trim() == "" && filterTime) {
+      que = query(ref, orderBy("time"), limit(10), where("time", "<=", time));
+    } //If both filtered
+    else if (filterName?.trim() != "" && filterTime) {
+      que = query(
+        ref,
+        orderBy("time"),
+        limit(10),
+        where("nameOfObject", "==", `${filterName}`),
+        where("time", "<=", time)
+      );
+    } //If none filtered
+    else {
+      que = query(ref, orderBy("time"), limit(10));
+    }
+
+    getDocs(que).then((snapShot) => {
+      const updatedItems = snapShot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setItems([...updatedItems]);
+      setFinalItem(snapShot.docs[snapShot.docs.length - 1]);
+    });
+  };
+
   return (
     <div onScroll={handleScroll}>
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
+      <div>
+        <button className="fixed bottom-24" onClick={FilterItems}>
+          Filter
+        </button>
+        <input
+          type="text"
+          value={filterName}
+          onChange={(e) => setFilterName(e.currentTarget.value)}
+          placeholder="Name To Search"
+          className="fixed bottom-16"
+        />
+        <input
+          type="date"
+          name="Date"
+          id=""
+          className="fixed bottom-10"
+          value={filterTime}
+          onChange={(e) => setFilterTime(e.currentTarget.value)}
+        />
+        <button
+          className="fixed bottom-0"
+          onClick={(e) => {
+            e.preventDefault();
+
+            mapRef.current.showModal();
+            setMap(true);
+          }}
+        >
+          Map
+        </button>
+      </div>
+      <MapInputDialog
+        onMapClick={(position) => handleMapClick(position)}
+        setMap={(value) => setMap(value)}
+        mapRef={mapRef}
+        mapPos={mapPos}
+        mapOn={mapOn}
+      />
       <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[97vw] justify-center">
         {items.map((item: any, i: number) => {
           const isFinal = i === items.length - 1;

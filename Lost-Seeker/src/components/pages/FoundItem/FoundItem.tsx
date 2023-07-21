@@ -12,6 +12,8 @@ import "leaflet/dist/leaflet.css";
 import "./Leaflet.css";
 import Quiz from "./Quiz/Quiz";
 
+import { geohashForLocation, Geopoint } from "geofire-common";
+
 import { LeafletMouseEvent } from "leaflet";
 import AddressInput from "./components/AddressInput";
 import ContactInput from "./components/ContactInput";
@@ -69,14 +71,19 @@ function FoundItem({ user }: Props) {
 
   const Submit = async (e: any) => {
     e.preventDefault();
+
     if (!formData.place) {
       alert("Choose a Location");
     } else {
+      const point: Geopoint = [formData.place[0], formData.place[1]];
       await addDoc(ref, {
         nameOfObject: formData.objectType,
         description: formData.description,
         place: new GeoPoint(formData.place[0], formData.place[1]),
+        geohash: geohashForLocation(point),
         placeName: formData.addressPlace,
+        lat: formData.place[0],
+        lng: formData.place[1],
         time: serverTimestamp(),
         questions: question,
         messages: {},

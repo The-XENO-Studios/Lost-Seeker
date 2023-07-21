@@ -12,6 +12,8 @@
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.5.3",
     "firebase": "^9.23.0",
+    "geofire": "^6.0.0",
+    "geofire-common": "^6.0.0",
     "hamburger-react": "^2.5.0",
     "leaflet": "^1.9.4",
     "leaflet-geosearch": "^3.8.0",
