@@ -13,6 +13,7 @@ export default {
       white: "#ffffff",
       black: "#202020",
       red: "#ff1c56",
+      gray: "#dddddd",
     },
     extend: {
       fontFamily: {
@@ -21,4 +22,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

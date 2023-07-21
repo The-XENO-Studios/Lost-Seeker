@@ -29,7 +29,7 @@ import { LeafletMouseEvent } from "leaflet";
 function ListOfItems() {
   const [finalItem, setFinalItem] = useState<any>();
   const [items, setItems] = useState<any>([]);
-  const [onTop, setOnTop] = useState(true);
+  const [onTop, setOnTop] = useState(false);
 
   const ref = collection(db, "items");
   const q = query(ref, orderBy("time"), limit(10));
@@ -70,7 +70,7 @@ function ListOfItems() {
 
   const GetMoreData = () => {
     const time = Timestamp.fromDate(new Date(filterTime));
-    var que: Query;
+    let que: Query;
     if (mapPos) {
       getMoreLocationQueryData();
       return;
@@ -137,7 +137,7 @@ function ListOfItems() {
     const bounds = geohashQueryBounds(center, radiusInM);
     const promises = [];
     for (const b of bounds) {
-      var que: Query;
+      let que: Query;
       if (filterName?.trim() != "") {
         que = query(
           ref,
@@ -202,7 +202,7 @@ function ListOfItems() {
     const bounds = geohashQueryBounds(center, radiusInM);
     const promises = [];
     for (const b of bounds) {
-      var que: Query;
+      let que: Query;
       if (filterName?.trim() != "") {
         que = query(
           ref,
@@ -271,7 +271,7 @@ function ListOfItems() {
 
   const FilterItems = () => {
     const time = Timestamp.fromDate(new Date(filterTime));
-    var que: Query;
+    let que: Query;
     if (mapPos) {
       getLocationQueryData();
       return;
@@ -321,40 +321,7 @@ function ListOfItems() {
   return (
     <div onScroll={handleScroll}>
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
-      <div>
-        <button className="fixed bottom-36" onClick={ResetFilters}>
-          Reset Filters
-        </button>
-        <button className="fixed bottom-24" onClick={FilterItems}>
-          Filter
-        </button>
-        <input
-          type="text"
-          value={filterName}
-          onChange={(e) => setFilterName(e.currentTarget.value)}
-          placeholder="Name To Search"
-          className="fixed bottom-16"
-        />
-        <input
-          type="date"
-          name="Date"
-          id=""
-          className="fixed bottom-10"
-          value={filterTime}
-          onChange={(e) => setFilterTime(e.currentTarget.value)}
-        />
-        <button
-          className="fixed bottom-0"
-          onClick={(e) => {
-            e.preventDefault();
 
-            mapRef.current.showModal();
-            setMap(true);
-          }}
-        >
-          Map
-        </button>
-      </div>
       <MapInputDialog
         onMapClick={(position) => handleMapClick(position)}
         setMap={(value) => setMap(value)}
@@ -362,20 +329,77 @@ function ListOfItems() {
         mapPos={mapPos}
         mapOn={mapOn}
       />
-      <div className="absolute top-28 flex flex-row-reverse flex-wrap gap-3 w-[97vw] justify-center">
-        {items.map((item: any, i: number) => {
-          const isFinal = i === items.length - 1;
-          return (
-            <Item
-              data={item}
-              key={item.id}
-              examData={handleExamData}
-              navigate={navigate}
-              isFinal={isFinal}
-              callMoreData={isFinal ? handleMoreDataAdd : null}
-            />
-          );
-        })}
+      <div className="pt-20 flex flex-col">
+        <div className="py-20 sm:py-10 px-8 md:px-14 lg:px-20">
+          <div className="h-20 rounded-lg flex flex-row justify-between items-center">
+            <h3 className="text-3xl font-bold hidden lg:block">Found Items</h3>
+            <div className="flex flex-col items-end">
+              <div className="flex flex-row flex-wrap md:flex-nowrap items-center gap-1 md:gap-2">
+                <button
+                  className="text-white bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-5 h-10 md:h-12 flex justify-center items-center transition-transform"
+                  onClick={FilterItems}
+                >
+                  Apply Filter
+                </button>
+                <button
+                  className="text-white bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-5 h-10 md:h-12 flex justify-center items-center transition-transform"
+                  onClick={ResetFilters}
+                >
+                  Reset Filters
+                </button>
+                <input
+                  type="text"
+                  value={filterName}
+                  onChange={(e) => setFilterName(e.currentTarget.value)}
+                  placeholder="Name To Search"
+                  className="bg-gray border border-whiteGray text-black text-md rounded-lg  block w-fit px-3 placeholder:text-black h-10 md:h-12"
+                  required
+                />
+
+                <input
+                  disabled={mapPos ? true : false}
+                  type="date"
+                  name="Date"
+                  id=""
+                  className="text-black bg-gray h-10 md:h-12 rounded-lg flex justify-center items-center px-2 md:px-5 outline-none hover:scale-95 transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
+                  value={filterTime}
+                  onChange={(e) => setFilterTime(e.currentTarget.value)}
+                />
+                <button
+                  disabled={filterTime ? true : false}
+                  className="text-black bg-gray hover:scale-95 font-medium rounded-lg text-md px-2 md:px-5 h-10 md:h-12 flex justify-center items-center transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
+                  onClick={(e) => {
+                    e.preventDefault();
+
+                    mapRef.current.showModal();
+                    setMap(true);
+                  }}
+                >
+                  Filter by Location
+                </button>
+              </div>
+              <p className="font-normal text-md text-lightGray">
+                The location and date filter can not be applied at the same
+                time.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row flex-wrap px-20 py-6 gap-4">
+          {items.map((item: any, i: number) => {
+            const isFinal = i === items.length - 1;
+            return (
+              <Item
+                data={item}
+                key={item.id}
+                examData={handleExamData}
+                navigate={navigate}
+                isFinal={isFinal}
+                callMoreData={isFinal ? handleMoreDataAdd : null}
+              />
+            );
+          })}
+        </div>
       </div>
       <dialog
         ref={dialogRef}
