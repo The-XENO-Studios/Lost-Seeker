@@ -336,13 +336,13 @@ function ListOfItems() {
             <div className="flex flex-col items-end">
               <div className="flex flex-row flex-wrap md:flex-nowrap items-center gap-1 md:gap-2">
                 <button
-                  className="text-white whitespace-nowrap bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-10 md:h-12 flex justify-center items-center transition-transform"
+                  className="text-white whitespace-nowrap bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-9 md:h-11  flex justify-center items-center transition-transform"
                   onClick={FilterItems}
                 >
                   Apply Filter
                 </button>
                 <button
-                  className="text-white whitespace-nowrap bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-10 md:h-12 flex justify-center items-center transition-transform"
+                  className="text-white whitespace-nowrap bg-black hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-9 md:h-11 flex justify-center items-center transition-transform"
                   onClick={ResetFilters}
                 >
                   Reset Filters
@@ -352,7 +352,7 @@ function ListOfItems() {
                   value={filterName}
                   onChange={(e) => setFilterName(e.currentTarget.value)}
                   placeholder="Name To Search"
-                  className="bg-gray border border-whiteGray text-black text-md rounded-lg  block w-fit px-3 placeholder:text-black h-10 md:h-12"
+                  className="bg-gray border border-whiteGray text-black text-md rounded-lg  block w-fit px-3 placeholder:text-black h-9 md:h-11"
                   required
                 />
 
@@ -361,13 +361,13 @@ function ListOfItems() {
                   type="date"
                   name="Date"
                   id=""
-                  className="text-black bg-gray h-10 md:h-12 rounded-lg flex justify-center items-center px-2 md:px-3 outline-none hover:scale-95 transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
+                  className="text-black bg-gray h-9 md:h-11 rounded-lg flex justify-center items-center px-2 md:px-3 outline-none hover:scale-95 transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
                   value={filterTime}
                   onChange={(e) => setFilterTime(e.currentTarget.value)}
                 />
                 <button
                   disabled={filterTime ? true : false}
-                  className="text-black bg-gray hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-10 md:h-12 flex justify-center items-center transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
+                  className="text-black bg-gray hover:scale-95 font-medium rounded-lg text-md px-2 md:px-3 h-9 md:h-11 flex justify-center items-center transition-transform disabled:cursor-not-allowed disabled:bg-red disabled:bg-opacity-30"
                   onClick={(e) => {
                     e.preventDefault();
 
