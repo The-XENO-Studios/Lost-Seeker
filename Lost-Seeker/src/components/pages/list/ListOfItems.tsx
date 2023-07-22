@@ -378,10 +378,12 @@ function ListOfItems() {
                   Filter by Location
                 </button>
               </div>
-              <p className="font-normal text-md text-lightGray">
-                The location and date filter can not be applied at the same
-                time.
-              </p>
+              {mapPos && (
+                <p className="font-normal text-md text-lightGray">
+                  The location and date filter can not be applied at the same
+                  time.
+                </p>
+              )}
             </div>
           </div>
         </div>
