@@ -61,9 +61,14 @@ function ListOfItems() {
   const [examData, setExamData] = useState<any>([]);
   const dialogRef = useRef<any>();
 
-  const handleExamData = (data: any) => {
+  const [contactStr, setContact] = useState("");
+  const [descriptionStr, setDescription] = useState("");
+
+  const handleExamData = (data: any, index: number) => {
     setExamData(data);
     dialogRef.current.showModal();
+    setContact(items[index].contactInfo);
+    setDescription(items[index].description);
   };
 
   const navigate = useNavigate();
@@ -318,6 +323,20 @@ function ListOfItems() {
     setMapPos(null);
   };
 
+  //----------Show Contact-------------
+
+  const contactRef = useRef<any>();
+
+  const [contactRealStr, setRealContact] = useState("");
+  const [descriptionRealStr, setRealDescription] = useState("");
+
+  const handleShowContact = () => {
+    dialogRef.current.close();
+    contactRef.current.showModal();
+    setRealContact(contactStr);
+    setRealDescription(descriptionStr);
+  };
+
   return (
     <div onScroll={handleScroll}>
       <NavBar onTop={onTop} links={["Found Report", "Contribute"]} />
@@ -394,6 +413,7 @@ function ListOfItems() {
               <Item
                 data={item}
                 key={item.id}
+                index={i}
                 examData={handleExamData}
                 navigate={navigate}
                 isFinal={isFinal}
@@ -415,7 +435,28 @@ function ListOfItems() {
         >
           <AiFillCloseCircle size={36} />
         </div>
-        <Quizexam tempQuizData={examData} />
+        <Quizexam tempQuizData={examData} showContact={handleShowContact} />
+      </dialog>
+      <dialog
+        ref={contactRef}
+        className="bg-transparent w-[90%] h-[90%] bg-white rounded-lg focus:outline-none"
+      >
+        <div className="p-6 mt-10">
+          <div
+            className="absolute right-[30px] top-[30px] z-[401] cursor-pointer"
+            onClick={() => {
+              contactRef.current.close();
+            }}
+          >
+            <AiFillCloseCircle size={36} />
+          </div>
+          <h1 className="text-4xl font-bold">The person who found it:</h1>
+          <div className="text-3xl font-bold mt-10">{contactRealStr}</div>
+          <h1 className="text-4xl font-bold mt-10">Description:</h1>
+          <div className="text-lg lg:w-3/5 xl:w-2/5 mt-10">
+            {descriptionRealStr}
+          </div>
+        </div>
       </dialog>
     </div>
   );

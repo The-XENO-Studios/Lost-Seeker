@@ -38,7 +38,7 @@ interface IFormData {
 
 function FoundItem({ user }: Props) {
   const [mapPos, setMapPos] = useState<any>();
-  const [question, setQuestion] = useState(null);
+  const [question, setQuestion] = useState([]);
 
   const [formData, setFormData] = useState<IFormData>({
     objectType: "",
@@ -74,6 +74,8 @@ function FoundItem({ user }: Props) {
 
     if (!formData.place) {
       alert("Choose a Location");
+    } else if (question?.length < 3) {
+      alert("Add at least three Questions");
     } else {
       const point: Geopoint = [formData.place[0], formData.place[1]];
       await addDoc(ref, {

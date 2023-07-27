@@ -36,7 +36,7 @@ function NavBar({
         </div>
 
         <div className="flex flex-row items-center">
-          <h1 className="font-extrabold text-xl  md:text-2xl lg:text-3xl text-black">
+          <h1 className="font-extrabold text-xl md:text-2xl lg:text-3xl text-black transition-all hover:scale-110">
             <Link to="/">LostSeeker</Link>
           </h1>
         </div>

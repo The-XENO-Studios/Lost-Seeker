@@ -3,9 +3,11 @@ import QuestionExam from "./QuestionExam";
 
 interface Props {
   tempQuizData: any;
+
+  showContact: () => void;
 }
 
-const Quizexam = ({ tempQuizData }: Props) => {
+const Quizexam = ({ tempQuizData, showContact }: Props) => {
   const [QuestionAnswers, setQuestionAnswers] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -18,6 +20,14 @@ const Quizexam = ({ tempQuizData }: Props) => {
       newAnswers[i] = bool;
       return newAnswers;
     });
+  };
+
+  const OnAnswerSubmit = () => {
+    if (!QuestionAnswers.includes(true)) {
+      showContact();
+    } else {
+      alert("Wrong answer!");
+    }
   };
 
   return (
@@ -46,11 +56,9 @@ const Quizexam = ({ tempQuizData }: Props) => {
             })}
             <button
               className="bg-black text-white rounded-lg mt-4  w-36 flex items-center justify-center py-2 text-lg font-bold transition-transform hover:scale-95 border-2 border-black"
-              onClick={() => {
-                console.log(QuestionAnswers.includes(true));
-              }}
+              onClick={OnAnswerSubmit}
             >
-              Click
+              Submit
             </button>
           </div>
         </div>

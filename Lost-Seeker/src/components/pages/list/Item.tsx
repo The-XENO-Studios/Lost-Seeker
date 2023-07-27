@@ -7,7 +7,8 @@ import { useEffect } from "react";
 interface Props {
   data: any;
   key: any;
-  examData: (data: any) => void;
+  index: number;
+  examData: (data: any, index: number) => void;
   navigate: any;
   isFinal?: boolean;
   callMoreData?: any;
@@ -16,6 +17,7 @@ interface Props {
 const Item = ({
   data,
   key,
+  index,
   examData,
   navigate,
   isFinal,
@@ -24,7 +26,7 @@ const Item = ({
   const [ref, inView] = useInView();
 
   function QuizPage() {
-    auth.currentUser ? examData(data.questions) : navigate("/register");
+    auth.currentUser ? examData(data.questions, index) : navigate("/register");
   }
 
   const time = new Date(
@@ -46,7 +48,7 @@ const Item = ({
       ref={ref}
       onClick={QuizPage}
       key={key}
-      className={`w-64 text-black h-80 rounded-lg shadow-md bg-white Item flex flex-col items-center justify-between ${
+      className={`w-64 cursor-pointer text-black h-80 rounded-lg shadow-md bg-white Item flex flex-col items-center justify-between ${
         inView
           ? "bg-opacity-100 blur-0 translate-x-0"
           : "opacity-0 blur-[5px] translate-x-[-100%]"
