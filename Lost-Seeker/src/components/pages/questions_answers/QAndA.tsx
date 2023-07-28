@@ -60,6 +60,62 @@ export default function QAndA() {
                 </p>
               </AccordionItemPanel>
             </AccordionItem>
+            <AccordionItem className="xl:w-[50rem]">
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  This is a test questions?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  In ad velit in ex nostrud dolore cupidatat consectetur ea in
+                  ut nostrud velit in irure cillum tempor laboris sed
+                  adipisicing eu esse duis nulla non.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+            <AccordionItem className="xl:w-[50rem]">
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  This is a test questions?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  In ad velit in ex nostrud dolore cupidatat consectetur ea in
+                  ut nostrud velit in irure cillum tempor laboris sed
+                  adipisicing eu esse duis nulla non.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+            <AccordionItem className="xl:w-[50rem]">
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  This is a test questions?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  In ad velit in ex nostrud dolore cupidatat consectetur ea in
+                  ut nostrud velit in irure cillum tempor laboris sed
+                  adipisicing eu esse duis nulla non.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+            <AccordionItem className="xl:w-[50rem]">
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  This is a test questions?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  In ad velit in ex nostrud dolore cupidatat consectetur ea in
+                  ut nostrud velit in irure cillum tempor laboris sed
+                  adipisicing eu esse duis nulla non.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
           </Accordion>
         </div>
       </div>
