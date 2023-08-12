@@ -1,0 +1,22 @@
+.leaflet-container {
+  max-width: 100%;
+  max-height: 100%;
+  width: 90vw;
+  height: 80vh;
+  border-radius: 30px;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .leaflet-container {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100vw;
+    height: 80vh;
+    border-radius: 30px;
+  }
+}
+
+dialog::backdrop {
+  background-color: rgba(58, 54, 54, 0.712);
+}

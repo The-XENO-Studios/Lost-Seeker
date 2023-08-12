@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,4 +6,42 @@
 html {
   font-family: "Roboto Slab", serif;
   color: #202020;
+  background-color: #f7f7f7;
+}
+#root,
+body,
+html {
+  height: 100%;
+}
+
+.hidden-card .card {
+  opacity: 0;
+
+  transform: translateX(-300px);
+  transition: all 1s ease-in-out;
+}
+
+.show-card .card {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+.card:nth-child(2) {
+  transition-delay: 400ms;
+}
+
+.card:nth-child(3) {
+  transition-delay: 800ms;
+}
+
+.fade-out-nav {
+  transform: translateX(-200px);
+
+  transition: transform 0.5s;
+}
+.fade-in-nav {
+  transform: translateX(0px);
+
+  transition: transform 0.5s;
 }

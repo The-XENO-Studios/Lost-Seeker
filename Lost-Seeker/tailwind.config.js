@@ -5,12 +5,21 @@ export default {
     colors: {
       transparent: "transparent",
       current: "currentColor",
+      darkBlue: "#241fdd",
       blue: "#4153ef",
       lightBlue: "#cfcfff",
       lightGray: "#9ca3af",
+      whiteGray: "#f7f7f7",
       white: "#ffffff",
       black: "#202020",
+      red: "#ff1c56",
+      gray: "#dddddd",
+    },
+    extend: {
+      fontFamily: {
+        RobotoSlab: ["Roboto Slab", "sans-serif"],
+      },
     },
   },
   plugins: [],
-}
+};
