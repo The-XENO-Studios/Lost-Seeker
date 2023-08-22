@@ -52,7 +52,7 @@ const Item = ({
         inView
           ? "bg-opacity-100 blur-0 translate-x-0"
           : "opacity-0 blur-[5px] translate-x-[-100%]"
-      } transition-all duration-[650ms] hover:scale-105`}
+      } transition-all hover:scale-105`}
     >
       <div className="font-bold text-3xl mt-5 break-words">
         {data.nameOfObject}
