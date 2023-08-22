@@ -446,7 +446,7 @@ function ListOfItems() {
         ref={contactRef}
         className="bg-transparent w-[90%] h-[90%] bg-white rounded-lg focus:outline-none"
       >
-        <div className="p-6 mt-10">
+        <div className="p-6 mt-10 ">
           <div
             className="absolute right-[30px] top-[30px] z-[401] cursor-pointer"
             onClick={() => {
@@ -455,11 +455,20 @@ function ListOfItems() {
           >
             <AiFillCloseCircle size={36} />
           </div>
-          <h1 className="text-4xl font-bold">The person who found it:</h1>
-          <div className="text-3xl font-bold mt-10">{contactRealStr}</div>
-          <h1 className="text-4xl font-bold mt-10">Description:</h1>
-          <div className="text-lg lg:w-3/5 xl:w-2/5 mt-10">
-            {descriptionRealStr}
+          <h1 className="text-4xl font-bold">Found Report Information</h1>
+          <p className="text-lg text-lightGray  lg:w-3/5 xl:w-2/5 mt-2">
+            Here you can find the contact informations to get you lost item
+            back.
+          </p>
+          <div className="flex flex-col gap-4 mt-10 bg-whiteGray rounded-lg p-4">
+            <div className="flex flex-col">
+              <h3 className="text-xl font-bold">Contact Information:</h3>
+              <p className="text-lg font-medium">{contactRealStr}</p>
+            </div>
+            <div className="flex flex-col">
+              <h3 className="text-xl font-bold">Description:</h3>
+              <p className="text-lg font-medium">{descriptionRealStr}</p>
+            </div>
           </div>
         </div>
       </dialog>
