@@ -408,7 +408,10 @@ function ListOfItems() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row flex-wrap px-20 py-6 gap-4">
+        <div className="px-16 w-full h-fit">
+          <div className="h-[2px] w-full  bg-gray"></div>
+        </div>
+        <div className="flex flex-row flex-wrap justify-center md:justify-start px-20 py-6 gap-4">
           {items.map((item: any, i: number) => {
             const isFinal = i === items.length - 1;
             return (
