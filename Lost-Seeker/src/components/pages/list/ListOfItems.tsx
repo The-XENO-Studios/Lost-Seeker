@@ -351,7 +351,9 @@ function ListOfItems() {
       <div className="pt-20 flex flex-col">
         <div className="py-20 sm:py-10 px-2 md:px-4 lg:px-20">
           <div className="h-20 rounded-lg flex flex-row justify-between items-center">
-            <h3 className="text-3xl font-bold hidden xl:block">Found Items</h3>
+            <h3 className="text-3xl font-bold hidden xl:block">
+              {items.length} Found Items
+            </h3>
             <div className="flex flex-col items-end">
               <div className="flex flex-row flex-wrap md:flex-nowrap items-center gap-1 md:gap-2">
                 <button
